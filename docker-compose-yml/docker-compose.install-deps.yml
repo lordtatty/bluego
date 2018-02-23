@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+    composer:
+        restart: 'no'
+        image: composer/composer
+        volumes:
+            - ./react-project/src:/app
+        command: install
+

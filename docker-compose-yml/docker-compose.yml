@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+    reverseproxy:
+        build: ../reverseproxy/
+        image: reverseproxy
+        ports:
+            - 8080:8080
+            - 8081:8081
+        restart: always
+
+    reactproject:
+        build: ../react-project/
+        depends_on:
+            - reverseproxy
+        image: reactproject
+        restart: always
+
+    apache-server:
+        build: ../apache-server/
+        depends_on:
+            - reverseproxy
+        image: httpd:alpine
+        restart: always
