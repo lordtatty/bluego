@@ -1,8 +1,10 @@
 language: php
 php:
   - '5.4'
-  
+
 sudo: required
 
 services:
   - docker
+
+script: sh ./start-build.sh
