@@ -1,3 +1,3 @@
-FROM nginx:alpine AS reverseproxy
+FROM nginx:alpine AS reverseproxyy
 
 COPY nginx.conf /etc/nginx/nginx.conf

@@ -5,6 +5,6 @@ services:
         restart: 'no'
         image: composer/composer
         volumes:
-            - ./react-project/src:/app
+            - ../react-project/src:/app
         command: install
 
