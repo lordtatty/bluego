@@ -9,7 +9,7 @@ class LoginCest
     public function loginSuccessfully(AcceptanceTester $I)
     {
         // write a positive login test
-        $I->seeInPageSource('awesome2');
+        $I->seeInPageSource('awesome');
 //        $I->canSee('awesome');
     }
     
