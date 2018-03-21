@@ -1,0 +1,32 @@
+# suite config
+suites:
+    acceptance:
+        actor: AcceptanceTester
+        path: .
+        modules:
+            enabled:
+                - WebDriver:
+                    url: http://reverseproxy:8081
+                    browser: firefox
+                    host: firefox
+                - \Helper\Acceptance
+
+extensions:
+    enabled: [Codeception\Extension\RunFailed]
+
+params:
+    - env
+
+gherkin: []
+
+# additional paths
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    envs: tests/_envs
+
+settings:
+    shuffle: false
+    lint: true

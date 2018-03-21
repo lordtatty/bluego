@@ -1,0 +1,13 @@
+version: '3.5'
+
+services:
+  firefox:
+    image: selenium/standalone-firefox-debug:latest
+    ports:
+      - 4444
+      - 5900:5900
+
+networks:
+  default:
+    external:
+      name: dockercomposetestnetwork_default
