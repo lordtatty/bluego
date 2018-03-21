@@ -1,2 +1,4 @@
 .idea/
 react-project/src/vendor/
+
+browser-tests/tests/_*
