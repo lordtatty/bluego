@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
     proxy-nginx:
-        build: ../proxy-nginx/
+        build: ../../proxy-nginx/
         image: proxy-nginx
         ports:
             - 8080:8080
@@ -10,14 +10,14 @@ services:
         restart: always
 
     web-reactphp:
-        build: ../web-reactphp/
+        build: ../../web-reactphp/
         depends_on:
             - proxy-nginx
         image: web-reactphp
         restart: always
 
     web-apacheserver:
-        build: ../web-apacheserver/
+        build: ../../web-apacheserver/
         depends_on:
             - proxy-nginx
         image: httpd:alpine

@@ -5,9 +5,9 @@ services:
     image: codeception/codeception
     command: run --steps
     volumes:
-      - ../browser-tests:/project
-      - ../browser-tests/tests:/tests
-      - ../browser-tests/codeception.yml:/codeception.yml
+      - ../../browser-tests:/project
+      - ../../browser-tests/tests:/tests
+      - ../../browser-tests/codeception.yml:/codeception.yml
 
 networks:
   default:
