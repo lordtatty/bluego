@@ -5,5 +5,5 @@ services:
         restart: 'no'
         image: composer/composer
         volumes:
-            - ../../web-reactphp/src:/app
+            - ../../services/web-reactphp/src:/app
         command: install

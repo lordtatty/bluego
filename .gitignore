@@ -1,4 +1,4 @@
 .idea/
-web-reactphp/src/vendor/
+services/web-reactphp/src/vendor/
 
 browser-tests/tests/_*
