@@ -9,8 +9,8 @@ class LoginCest
     public function loginSuccessfully(AcceptanceTester $I)
     {
         // write a positive login test
-//        $I->seeInPageSource('awesome');
-        $I->canSee('awesome');
+        $I->seeInPageSource('awesome');
+//        $I->canSee('awesome');
     }
     
     public function loginWithInvalidPassword(AcceptanceTester $I)

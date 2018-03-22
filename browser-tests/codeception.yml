@@ -6,7 +6,7 @@ suites:
         modules:
             enabled:
                 - WebDriver:
-                    url: http://reverseproxy:8081
+                    url: http://proxy-nginx:8081
                     browser: firefox
                     host: firefox
                 - \Helper\Acceptance

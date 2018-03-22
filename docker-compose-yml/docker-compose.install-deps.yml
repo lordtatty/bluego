@@ -1,9 +1,9 @@
 version: '3.5'
 
 services:
-    composer-react-project:
+    composer-web-reactphp:
         restart: 'no'
         image: composer/composer
         volumes:
-            - ../react-project/src:/app
+            - ../web-reactphp/src:/app
         command: install
