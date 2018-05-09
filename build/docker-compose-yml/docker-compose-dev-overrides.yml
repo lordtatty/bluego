@@ -1,0 +1,6 @@
+version: '3.5'
+
+services:
+    web-reactphp:
+        volumes:
+          - ../../services/web-reactphp/src:/var/www/html

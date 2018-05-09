@@ -1,20 +1,16 @@
 <?php
-class LoginCest 
+class WebApacheHomepageCest
 {    
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage('/');
     }
 
-    public function loginSuccessfully(AcceptanceTester $I)
+    public function canSeeWelcomeMessage(AcceptanceTester $I)
     {
         // write a positive login test
         $I->seeInPageSource('awesome');
 //        $I->canSee('awesome');
     }
-    
-    public function loginWithInvalidPassword(AcceptanceTester $I)
-    {
-        // write a negative login test
-    }       
+
 }

@@ -1,6 +1,6 @@
 ## The base image with all shared components by each build stage
 ##
-FROM php:7.0-cli AS base
+FROM php:7.1-cli AS base
 
 #COPY ./vhost.conf /etc/apache2/sites-available/000-default.conf
 

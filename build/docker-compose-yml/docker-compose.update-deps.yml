@@ -6,4 +6,4 @@ services:
         image: composer/composer
         volumes:
             - ../../services/web-reactphp/src:/app
-        command: install --ignore-platform-reqs
+        command: update --ignore-platform-reqs
