@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lordtatty/docker-compose-test.svg?branch=master)](https://travis-ci.org/lordtatty/docker-compose-test)
+
 **The Project**
 
 This project template has two goals:
