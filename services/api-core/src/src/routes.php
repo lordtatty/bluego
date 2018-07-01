@@ -5,10 +5,39 @@ use Slim\Http\Response;
 
 // Routes
 
-$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
+$app->get('/adduser/{name}', function (Request $request, Response $response, array $args) {
     // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
+    $this->logger->info("Slim-Skeleton '/adduser' route");
 
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
+    $route = $request->getAttribute('route');
+    $name = $route->getArgument('name');
+
+    $data = array('name' => $name, 'age' => 40);
+
+    $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
+    $db = $mongodb->selectDatabase("test");
+    $collection = $db->selectCollection("testcollection");
+    $collection->insertOne($data);
+
+    return $response->withStatus(200);
+
 });
+
+$app->get('/getusers', function (Request $request, Response $response, array $args) {
+        // Sample log message
+        $this->logger->info("Slim-Skeleton '/adduser' route");
+
+        $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
+        $db = $mongodb->selectDatabase("test");
+        $collection = $db->selectCollection("testcollection");
+        $result = $collection->find();
+
+        /** @var MongoDB\Model\BSONDocument $r */
+        foreach($result as $r){
+            echo json_encode($r);
+            echo "<br />";
+        }
+
+        return $response->withStatus(200);
+
+    });

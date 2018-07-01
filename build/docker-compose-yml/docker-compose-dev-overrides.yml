@@ -4,3 +4,7 @@ services:
     web-yii:
         volumes:
           - ../../services/web-yii/src:/var/www/html
+
+    api-core:
+        volumes:
+          - ../../services/api-core/src:/var/www/html
