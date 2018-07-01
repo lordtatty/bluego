@@ -33,11 +33,12 @@ $app->get('/getusers', function (Request $request, Response $response, array $ar
         $result = $collection->find();
 
         /** @var MongoDB\Model\BSONDocument $r */
+        $return = [];
         foreach($result as $r){
-            echo json_encode($r);
-            echo "<br />";
+            $return[] = $r;
         }
 
-        return $response->withStatus(200);
+        return $response->withJson($return)
+            ->withStatus(200);
 
     });

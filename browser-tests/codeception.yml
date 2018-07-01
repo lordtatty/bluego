@@ -1,15 +1,13 @@
 # suite config
 suites:
-    api-core-acceptance:
-        actor: AcceptanceTester
-        path: ./api-core/
+    api-core:
+        actor: ApiTester
         modules:
             enabled:
-                - WebDriver:
+                - REST:
                     url: http://proxy-nginx:8081
-                    browser: firefox
-                    host: firefox
-                - \Helper\Acceptance
+                    depends: PhpBrowser
+                    part: Json
     web-yii-acceptance:
         actor: AcceptanceTester
         path: ./web-yii/
