@@ -9,12 +9,14 @@ services:
             - 8081:8081
         restart: always
 
-    web-reactphp:
-        build: ../../services/web-reactphp/
+    web-yii:
+        build: ../../services/web-yii/
         depends_on:
             - proxy-nginx
-        image: web-reactphp
+        image: web-yii
         restart: always
+        links:
+          - mongodb
 
     web-apacheserver:
         build: ../../services/web-apacheserver/
@@ -22,3 +24,12 @@ services:
             - proxy-nginx
         image: httpd:alpine
         restart: always
+
+    mongodb:
+        image: mongo:latest
+        container_name: "mongodb"
+        volumes:
+          - ../data/mongo:/data/db
+ #h       ports:
+#            - 27017:27017
+        command: mongod

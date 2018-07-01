@@ -1,9 +1,9 @@
 version: '3.5'
 
 services:
-    composer-web-reactphp:
+    composer-web-yii:
         restart: 'no'
         image: composer/composer
         volumes:
-            - ../../services/web-reactphp/src:/app
+            - ../../services/web-yii/src:/app
         command: update --ignore-platform-reqs

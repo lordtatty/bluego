@@ -10,9 +10,9 @@ suites:
                     browser: firefox
                     host: firefox
                 - \Helper\Acceptance
-    web-reactphp-acceptance:
+    web-yii-acceptance:
         actor: AcceptanceTester
-        path: ./web-reactphp/
+        path: ./web-yii/
         modules:
             enabled:
                 - WebDriver:

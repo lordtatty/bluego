@@ -1,4 +1,6 @@
 .idea/
-services/web-reactphp/src/vendor/
+services/web-yii/src/vendor/
+
+build/data
 
 browser-tests/tests/_*

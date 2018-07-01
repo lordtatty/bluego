@@ -1,5 +1,5 @@
 <?php
-class WebReactPhpHomepageCest
+class WebYiiHomepageCest
 {    
     public function _before(AcceptanceTester $I)
     {
@@ -9,7 +9,7 @@ class WebReactPhpHomepageCest
     public function canSeeWelcomeMessage(AcceptanceTester $I)
     {
         // write a positive login test
-        $I->seeInPageSource('Hello World');
+        $I->seeInPageSource('Get started with Yii');
 //        $I->canSee('awesome');
     }
 }

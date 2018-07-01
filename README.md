@@ -17,16 +17,16 @@ and map the local development src directories into those containers to make deve
 
 Once everything is launched it will map two webapp endpoints to localhost:
 
-  - ``http://localhost:8080`` This is a ReactPHP app, printing out a simple string.
+  - ``http://localhost:8080`` This is a yii app, printing out a simple string.
   - ``http://localhost:8081`` This is a simple apache server, also printing out a simple string.
   
-From here you can simply get devving.  Any code changes made will immediately impact the code on the containers, because the local src is mapped as a volume.  However, note that ReactPHP will need to be restarted for the code changes to take affect with it's loop - working out a way to autodetect such changes in this environment, and relaunch, is on the todo list.
+From here you can simply get devving.  Any code changes made will immediately impact the code on the containers, because the local src is mapped as a volume.  However, note that yii will need to be restarted for the code changes to take affect with it's loop - working out a way to autodetect such changes in this environment, and relaunch, is on the todo list.
 
 **Other useful scripts**
 
   - ``sh ./build/start-build.sh`` - this is used primarily by the build server (travis by default).  It will build all containers, install all dependencies, launch a full environment (note it will not map src into the containers - the code is copied in and needs to stand up on it's own), run unit tests, launch a firefox container, then run the browser tests.
-  - ``sh ./build/install-deps.sh`` this will install dependencies for containers.  By default it runs composer on the ReactPHP service.
-  - ``sh ./build/update-deps.sh`` this will update dependencies.  By defulit runs composer update on the ReactPHP service.
+  - ``sh ./build/install-deps.sh`` this will install dependencies for containers.  By default it runs composer on the yii service.
+  - ``sh ./build/update-deps.sh`` this will update dependencies.  By defulit runs composer update on the yii service.
   - ``sh ./build/run-unit-tests.sh`` does as it says on the tin.
   - ``sh ./build/run-browser-tests.sh`` also does as it says on the tin.  It will launch a firefox container, then run the browser tests against it.  
   - ``sh ./build/run-all-tests.sh`` runs both the unit tests and the browser tests.
