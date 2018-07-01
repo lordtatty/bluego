@@ -18,8 +18,8 @@ services:
         links:
           - mongodb
 
-    web-apacheserver:
-        build: ../../services/web-apacheserver/
+    api-core:
+        build: ../../services/api-core/
         depends_on:
             - proxy-nginx
         image: httpd:alpine

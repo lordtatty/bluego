@@ -1,8 +1,8 @@
 # suite config
 suites:
-    web-apache-acceptance:
+    api-core-acceptance:
         actor: AcceptanceTester
-        path: ./web-apache/
+        path: ./api-core/
         modules:
             enabled:
                 - WebDriver:

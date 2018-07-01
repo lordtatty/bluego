@@ -1,5 +1,5 @@
 <?php
-class WebApacheHomepageCest
+class ApiCoreHomepageCest
 {    
     public function _before(AcceptanceTester $I)
     {
@@ -9,7 +9,7 @@ class WebApacheHomepageCest
     public function canSeeWelcomeMessage(AcceptanceTester $I)
     {
         // write a positive login test
-        $I->seeInPageSource('awesome');
+        $I->seeInPageSource('Slim');
 //        $I->canSee('awesome');
     }
 

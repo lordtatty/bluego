@@ -1,5 +1,6 @@
 .idea/
 services/web-yii/src/vendor/
+services/api-core/src/vendor/
 
 build/data
 

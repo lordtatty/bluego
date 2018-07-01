@@ -1,3 +1,3 @@
 #!/bin/bash
 set -e
-docker exec -it dockercomposetestnetwork_web-yii_1 bash -c "vendor/bin/codecept run unit"
+docker exec -it dockercomposetestnetwork_api-core_1 bash -c "vendor/bin/phpunit"
