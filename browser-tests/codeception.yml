@@ -1,7 +1,8 @@
 # suite config
 suites:
-    api-core:
+    api-core-integration:
         actor: ApiTester
+        path: ./api-core/
         modules:
             enabled:
                 - REST:

@@ -1,9 +1,17 @@
 version: '3.5'
 
 services:
-  codecept:
+  codecept-browser-tests:
     image: codeception/codeception
-    command: run --steps
+    command: run web-yii-acceptance --steps
+    volumes:
+      - ../../browser-tests:/project
+      - ../../browser-tests/tests:/tests
+      - ../../browser-tests/codeception.yml:/codeception.yml
+
+  codecept-integration-tests:
+    image: codeception/codeception
+    command: run api-core-integration --steps
     volumes:
       - ../../browser-tests:/project
       - ../../browser-tests/tests:/tests
