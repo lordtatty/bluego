@@ -12,12 +12,13 @@ $app->get('/adduser/{name}', function (Request $request, Response $response, arr
     $route = $request->getAttribute('route');
     $name = $route->getArgument('name');
 
-    $data = array('name' => $name, 'age' => 40);
+    $blueGoCore = new \BlueGoCore\BlueGoCore();
+    $user = new \BlueGoCore\Models\User();
+    $user->setName($name);
+    $user->setAge(40);
 
-    $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
-    $db = $mongodb->selectDatabase("test");
-    $collection = $db->selectCollection("testcollection");
-    $collection->insertOne($data);
+    $writer = $blueGoCore->getWriters()->getUsersWriter();
+    $writer->saveToDb($user);
 
     return $response->withStatus(200);
 
