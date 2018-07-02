@@ -2,9 +2,9 @@
 
 **The Project**
 
-This project template has two goals:
-  - A developer should need to run only a single command to get a working development environment
-  - The differences between the live and dev environments should be kept to the bare minimum necessary
+This is designed to be a first test of my docker-compose-test template:
+ 
+It's an attempt to create a working VLE using a docker environment.  It also needs to adhere to the idea of having one command to spin up a dev environment, with the only pre-requisite being docker.
 
 **To start development**
 
@@ -17,10 +17,10 @@ and map the local development src directories into those containers to make deve
 
 Once everything is launched it will map two webapp endpoints to localhost:
 
-  - ``http://localhost:8080`` This is a yii app, printing out a simple string.
-  - ``http://localhost:8081`` This is a simple apache server, also printing out a simple string.
+  - ``http://localhost:8080`` This is a yii app which will serve as the frontend.
+  - ``http://localhost:8081`` This is an API intended to be the core of the application.
   
-From here you can simply get devving.  Any code changes made will immediately impact the code on the containers, because the local src is mapped as a volume.  However, note that yii will need to be restarted for the code changes to take affect with it's loop - working out a way to autodetect such changes in this environment, and relaunch, is on the todo list.
+From here you can simply get devving.  Any code changes made will immediately impact the code on the containers, because the local src is mapped as a volume.
 
 **Other useful scripts**
 
@@ -28,8 +28,9 @@ From here you can simply get devving.  Any code changes made will immediately im
   - ``sh ./build/install-deps.sh`` this will install dependencies for containers.  By default it runs composer on the yii service.
   - ``sh ./build/update-deps.sh`` this will update dependencies.  By defulit runs composer update on the yii service.
   - ``sh ./build/run-unit-tests.sh`` does as it says on the tin.
+  - ``sh ./build/run-integration-tests.sh`` also does as it says on the tin.
   - ``sh ./build/run-browser-tests.sh`` also does as it says on the tin.  It will launch a firefox container, then run the browser tests against it.  
-  - ``sh ./build/run-all-tests.sh`` runs both the unit tests and the browser tests.
+  - ``sh ./build/run-all-tests.sh`` runs the unit tests, integration tests, and the browser tests.
 
 **The basic structure**
 
@@ -58,3 +59,6 @@ docker-compose -f ./build/docker-compose-yml/docker-compose.run-tests.yml run --
 OR: docker-compose -f ./build/docker-compose-yml/docker-compose.run-tests.yml run --rm codecept init acceptance
 see: https://codeception.com/docs/12-ParallelExecution#Using-Codeception-Docker-image
 and: https://codeception.com/quickstart
+
+docker run --rm --interactive --tty --volume $PWD:/app composer (whatever composer compand and params) 
+  - This is really useful for initialising or re-initialising containers.  Or for dump-autoload.
