@@ -6,7 +6,7 @@ suites:
         modules:
             enabled:
                 - REST:
-                    url: http://proxy-nginx:8081
+                    url: http://api-core
                     depends: PhpBrowser
                     part: Json
     web-yii-acceptance:

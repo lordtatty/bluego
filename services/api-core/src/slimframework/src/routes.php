@@ -7,7 +7,7 @@ use Slim\Http\Response;
 
 $app->get('/adduser/{name}', function (Request $request, Response $response, array $args) {
     // Sample log message
-    $this->logger->info("Slim-Skeleton '/adduser' route");
+    $this->logger->info("BlueGo '/adduser' route");
 
     $route = $request->getAttribute('route');
     $name = $route->getArgument('name');
@@ -25,17 +25,15 @@ $app->get('/adduser/{name}', function (Request $request, Response $response, arr
 
 $app->get('/getusers', function (Request $request, Response $response, array $args) {
         // Sample log message
-        $this->logger->info("Slim-Skeleton '/adduser' route");
+        $this->logger->info("BlueGo '/adduser' route");
 
-        $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
-        $db = $mongodb->selectDatabase("test");
-        $collection = $db->selectCollection("testcollection");
-        $result = $collection->find();
+        $blueGoCore = new \BlueGoCore\BlueGoCore();
+        $usersLoader = $blueGoCore->getLoaders()->getUsersLoader();
 
-        /** @var MongoDB\Model\BSONDocument $r */
         $return = [];
-        foreach($result as $r){
-            $return[] = $r;
+        /** @var \BlueGoCore\Models\User $user */
+        foreach($usersLoader->iterateAllUsers() as $user){
+            $return[] = $user->getArray();
         }
 
         return $response->withJson($return)
