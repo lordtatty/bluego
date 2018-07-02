@@ -8,24 +8,24 @@ use Slim\Http\Response;
 $blueGoCore = new \BlueGoCore\BlueGoCore();
 
 $app->get('/adduser/{name}', function (Request $request, Response $response, array $args) use ($blueGoCore) {
-    // Sample log message
-    $this->logger->info("BlueGo '/adduser' route");
+        // Sample log message
+        $this->logger->info("BlueGo '/adduser' route");
 
-    $route = $request->getAttribute('route');
-    $name = $route->getArgument('name');
+        $route = $request->getAttribute('route');
+        $name = $route->getArgument('name');
 
-    $user = new \BlueGoCore\Models\User();
-    $user->setName($name);
-    $user->setAge(40);
+        $user = new \BlueGoCore\Models\User();
+        $user->setName($name);
+        $user->setAge(40);
 
-    $writer = $blueGoCore->getWriters()->getUsersWriter();
-    $writer->saveToDb($user);
+        $writer = $blueGoCore->getWriters()->getUsersWriter();
+        $writer->saveToDb($user);
 
-    return $response
-        ->withJson(['status'=>'success'])
-        ->withStatus(200);
+        return $response
+            ->withJson(['status'=>'success'])
+            ->withStatus(200);
 
-});
+    });
 
 $app->get('/getusers', function (Request $request, Response $response, array $args) use ($blueGoCore) {
         // Sample log message
