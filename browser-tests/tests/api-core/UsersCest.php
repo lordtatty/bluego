@@ -6,7 +6,7 @@ class CreateUserCest
     }
 
     public function _after(\ApiTester $I)
-    {
+    {g
     }
 
     // tests
