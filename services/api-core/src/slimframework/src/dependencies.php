@@ -17,3 +17,22 @@ $container['logger'] = function ($c) {
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
+
+$container['errorHandler'] = function ($container) {
+    return function ($request, $response, $exception) use ($container) {
+
+        // Parse it with the json api library
+        $errors = new \Tobscure\JsonApi\ErrorHandler();
+        $errors->registerHandler(new \Tobscure\JsonApi\Exception\Handler\InvalidParameterExceptionHandler());
+        $errors->registerHandler(new \Tobscure\JsonApi\Exception\Handler\FallbackExceptionHandler(false));
+        $response = $errors->handle($exception);
+
+        $document = new \Tobscure\JsonApi\Document();
+        $document->setErrors($response->getErrors());
+
+        // Return it with slim
+        return $container['response']->withStatus($response->getStatus())
+            ->withHeader('Content-Type', 'application/json')
+            ->withJson($document->toArray());
+    };
+};

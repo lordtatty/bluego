@@ -39,7 +39,7 @@ class User implements BsonPopulatable{
 
     public function setAge($age) {
         if(!is_int($age)){
-            throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($age, true));
+            throw new \InvalidArgumentException('$name must be an integer, instead found' . var_export($age, true));
         }
         $this->userData['age'] = $age;
     }

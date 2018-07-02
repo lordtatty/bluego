@@ -7,22 +7,17 @@ use Slim\Http\Response;
 
 $blueGoCore = new \BlueGoCore\BlueGoCore();
 
-$app->get('/adduser/{name}', function (Request $request, Response $response, array $args) use ($blueGoCore) {
+$app->post('/adduser', function (Request $request, Response $response, array $args) use ($blueGoCore) {
         // Sample log message
         $this->logger->info("BlueGo '/adduser' route");
 
-        $route = $request->getAttribute('route');
-        $name = $route->getArgument('name');
-
         $user = new \BlueGoCore\Models\User();
-        $user->setName($name);
-        $user->setAge(40);
+        $user->setName($request->getParam('name'));
+        $user->setAge($request->getParam('age'));
 
         $writer = $blueGoCore->getWriters()->getUsersWriter();
         $writer->saveToDb($user);
-
         return $response
-            ->withJson(['status'=>'success'])
             ->withStatus(200);
 
     });

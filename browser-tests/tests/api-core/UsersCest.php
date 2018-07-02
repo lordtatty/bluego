@@ -10,10 +10,23 @@ class CreateUserCest
     }
 
     // tests
+
+    public function addUser(\ApiTester $I)
+    {
+        $I->amHttpAuthenticated('service_user', '123456');
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('/adduser', [
+            'name' => 'Jim',
+            'age' => 40
+        ]);
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseEquals('');
+    }
+
     public function getUsers(\ApiTester $I)
     {
         $I->amHttpAuthenticated('service_user', '123456');
-        $I->haveHttpHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendGET('/getusers');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
@@ -22,8 +35,8 @@ class CreateUserCest
         $I->dontSeeResponseJsonMatchesJsonPath('$[0]._id');
         $I->seeResponseContainsJson([
             '0' => [
-                'name' => 'Bob',
-                'age' => '40'
+                'name' => 'Jim',
+                'age' => 40
             ]
         ]);
         $I->seeResponseMatchesJsonType([
