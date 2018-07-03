@@ -2,17 +2,9 @@
 
 namespace BlueGoCore\Writers;
 
-use BlueGoCore\Databases\DatabaseFactory;
 use BlueGoCore\Models\User;
 
-class UsersWriter {
-
-    /** @var \BlueGoCore\Databases\DatabaseFactory */
-    protected $databaseFactory;
-
-    public function __construct(DatabaseFactory $factory){
-        $this->databaseFactory = $factory;
-    }
+class UsersWriter extends WriterAbstract{
 
     /**
      * @param User $user
@@ -20,7 +12,7 @@ class UsersWriter {
      */
     function saveToDb(User $user) {
         $data = $user->getArray();
-        $this->databaseFactory->getMongoDatabase()->insertData($data);
+        $this->getDefaultDatabase()->insertData($data);
     }
 
 } 

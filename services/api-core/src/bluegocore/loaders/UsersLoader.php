@@ -2,7 +2,6 @@
 
 namespace BlueGoCore\Loaders;
 
-use BlueGoCore\Databases\DatabaseFactory;
 use BlueGoCore\Models\User;
 
 /**
@@ -10,15 +9,7 @@ use BlueGoCore\Models\User;
  *
  * @package BlueGoCore\Loaders
  */
-class UsersLoader{
-
-    /** @var \BlueGoCore\Databases\DatabaseFactory */
-    protected $databaseFactory;
-
-    public function __construct(DatabaseFactory $factory){
-        $this->databaseFactory = $factory;
-    }
-
+class UsersLoader extends LoaderAbstract{
 
     /**
      * Returns an array of all known users
@@ -26,7 +17,7 @@ class UsersLoader{
      * @return array[\BlueGoCore\Models\User]
      */
     public function getAllUsers() {
-        $result = $this->databaseFactory->getMongoDatabase()->getAllData();
+        $result = $this->getDefaultDatabase()->getAllData();
 
         $response = [];
         foreach($result as $r){

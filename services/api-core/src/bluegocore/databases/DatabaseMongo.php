@@ -5,14 +5,27 @@ namespace BlueGoCore\Databases;
 
 class DatabaseMongo {
 
+    protected $client;
+    protected $endpoint;
+    protected $database;
+    protected $collection;
+
+    public function __construct($endpoint, $database, $collection){
+        $this->endpoint = $endpoint;
+        $this->database = $database;
+        $this->collection = $collection;
+    }
+
     public function getClient() {
-        return new \MongoDB\Client("mongodb://mongodb:27017");
+        if(!isset($client)) {
+            $this->client = new \MongoDB\Client($this->endpoint);
+        }
+        return $this->client;
     }
 
     public function insertData(array $data){
-        $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
-        $db = $mongodb->selectDatabase("test");
-        $collection = $db->selectCollection("testcollection");
+        $db = $this->getClient()->selectDatabase($this->database);
+        $collection = $db->selectCollection($this->collection);
         $result = $collection->insertOne($data);
 
         // Ensure this worked before returning a positive response.
@@ -22,9 +35,8 @@ class DatabaseMongo {
     }
 
     public function getAllData() {
-        $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
-        $db = $mongodb->selectDatabase("test");
-        $collection = $db->selectCollection("testcollection");
+        $db = $this->getClient()->selectDatabase($this->database);
+        $collection = $db->selectCollection($this->collection);
         return $collection->find();
     }
 
