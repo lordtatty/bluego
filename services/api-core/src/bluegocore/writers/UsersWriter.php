@@ -2,9 +2,17 @@
 
 namespace BlueGoCore\Writers;
 
+use BlueGoCore\Databases\DatabaseFactory;
 use BlueGoCore\Models\User;
 
 class UsersWriter {
+
+    /** @var \BlueGoCore\Databases\DatabaseFactory */
+    protected $databaseFactory;
+
+    public function __construct(DatabaseFactory $factory){
+        $this->databaseFactory = $factory;
+    }
 
     /**
      * @param User $user
@@ -12,16 +20,7 @@ class UsersWriter {
      */
     function saveToDb(User $user) {
         $data = $user->getArray();
-
-        $mongodb = new \MongoDB\Client("mongodb://mongodb:27017");
-        $db = $mongodb->selectDatabase("test");
-        $collection = $db->selectCollection("testcollection");
-        $result = $collection->insertOne($data);
-
-        // Ensure this worked before returning a positive response.
-        if(!$result->isAcknowledged() || $result->getInsertedCount() !== 1){
-            throw new \Exception('Data unexpectedly did not insert to db');
-        }
+        $this->databaseFactory->getMongoDatabase()->insertData($data);
     }
 
 } 
