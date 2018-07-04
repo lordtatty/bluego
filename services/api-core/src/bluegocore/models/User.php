@@ -50,16 +50,29 @@ class User implements BsonPopulatable{
         $this->userData = $array;
     }
 
-    public function setName($name) {
+    public function setForename($name) {
         if(!is_string($name)){
             throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
         }
-        $this->userData['name'] = $name;
+        $this->userData['forename'] = $name;
     }
 
-    public function getName(){
-        if(isset($this->userData['name'])){
-            return $this->userData['name'];
+    public function getForename(){
+        if(isset($this->userData['forename'])){
+            return $this->userData['forename'];
+        }
+    }
+
+    public function setSurname($name) {
+        if(!is_string($name)){
+            throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
+        }
+        $this->userData['surname'] = $name;
+    }
+
+    public function getSurname(){
+        if(isset($this->userData['surname'])){
+            return $this->userData['surname'];
         }
     }
 

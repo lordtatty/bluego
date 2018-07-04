@@ -12,10 +12,10 @@ class CreateUserCest
     /**
      * @param ApiTester $I
      */
-    public function addUser_fails_with_integer_aname(\ApiTester $I)
+    public function addUser_fails_with_integer_forename(\ApiTester $I)
     {
         $userData = [
-            'name' => 40,
+            'forename' => 40,
         ];
 
         $I->amHttpAuthenticated('service_user', '123456');
@@ -44,7 +44,8 @@ class CreateUserCest
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST('/adduser', [
-            'name' => 'Jim',
+            'forename' => 'Jim',
+            'surname' => 'Biddersdale'
         ]);
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
@@ -59,7 +60,8 @@ class CreateUserCest
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
         $I->seeResponseContainsJson([
-                'name' => 'Jim',
+                'forename' => 'Jim',
+                'surname' => 'Biddersdale'
         ]);
 
     }
@@ -69,7 +71,8 @@ class CreateUserCest
         $I->seeResponseJsonMatchesJsonPath('$.links.self');
         $I->seeResponseJsonMatchesJsonPath('$.data[*].type');
         $I->seeResponseJsonMatchesJsonPath('$.data[*].id');
-        $I->seeResponseJsonMatchesJsonPath('$.data[*].attributes.name');
+        $I->seeResponseJsonMatchesJsonPath('$.data[*].attributes.forename');
+        $I->seeResponseJsonMatchesJsonPath('$.data[*].attributes.surname');
         $I->seeResponseJsonMatchesJsonPath('$.meta.total');
         $I->dontSeeResponseJsonMatchesJsonPath('$.data[*].attributes._id');
         $I->seeResponseMatchesJsonType([
@@ -81,7 +84,8 @@ class CreateUserCest
                                                    'type' => 'string',
                                                    'id' => 'string',
                                                    'attributes' => [
-                                                       'name' => 'string',
+                                                       'forename' => 'string',
+                                                       'surname' => 'string',
                                                    ]
                                                ]
                                            ],

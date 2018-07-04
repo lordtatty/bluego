@@ -10,7 +10,8 @@ class UserTest extends \PHPUnit_Framework_TestCase {
     {
         return [
             'uniqueId' => uniqid(),
-            'name' => 'Jim',
+            'forename' => 'Jim',
+            'surname' => 'Henson',
         ];
     }
 
@@ -34,9 +35,14 @@ class UserTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($testUserData['uniqueId'], $uniqueId);
     }
 
-    public function testGetSetName(){
-        $this->sut->setName("Bob");
-        $this->assertSame("Bob", $this->sut->getName());
+    public function testGetSetForeame(){
+        $this->sut->setForename("Bob");
+        $this->assertSame("Bob", $this->sut->getForename());
+    }
+
+    public function testGetSetSurname(){
+        $this->sut->setSurname("Bob");
+        $this->assertSame("Bob", $this->sut->getSurname());
     }
 
     public function testGetArrayEnsuresUniqueId() {
