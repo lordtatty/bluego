@@ -11,8 +11,8 @@ return [
 
         // Monolog settings
         'logger' => [
-            'name' => 'slim-app',
-            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+            'name' => 'api-core',
+            'path' => 'php://stdout',
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],

@@ -21,6 +21,12 @@ $container['logger'] = function ($c) {
 $container['errorHandler'] = function ($container) {
     return function ($request, $response, $exception) use ($container) {
 
+        /** @var Monolog\Logger $logger */
+        $logger = $container->get('logger');
+        /** @var \Exception $exception */
+        $logMessage = $exception->getMessage() . "::" . "File: " . $exception->getFile() . "::" . "Line: " . $exception->getLine();
+        $logger->error($logMessage);
+
         // Parse it with the json api library
         $errors = new \Tobscure\JsonApi\ErrorHandler();
         $errors->registerHandler(new \Tobscure\JsonApi\Exception\Handler\InvalidParameterExceptionHandler());

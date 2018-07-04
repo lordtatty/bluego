@@ -25,7 +25,8 @@
     "autoload": {
         "psr-4": {
             "BlueGoCore\\": "bluegocore/",
-            "JsonApi\\": "jsonapi/"
+            "JsonApi\\": "jsonapi/",
+            "SlimFramework\\": "slimframework/"
         }
     },
     "autoload-dev": {
