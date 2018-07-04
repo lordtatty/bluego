@@ -9,6 +9,10 @@ class CreateUserCest
     {
     }
 
+    protected function buildCallingUrl($url){
+        return '/test' . $url;
+    }
+
     /**
      * @param ApiTester $I
      */
@@ -20,7 +24,7 @@ class CreateUserCest
 
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/adduser', $userData);
+        $I->sendPOST($this->buildCallingUrl('/adduser'), $userData);
         $I->seeResponseCodeIs(500);
         $I->seeResponseEquals(json_encode([
             'errors' => [
@@ -32,7 +36,7 @@ class CreateUserCest
         ]));
 
         // Ensure User does not exist
-        $I->sendGET('/getusers');
+        $I->sendGET($this->buildCallingUrl('/getusers'));
         $I->seeResponseCodeIs(200);
         $I->dontSeeResponseContainsJson([
             '0' => $userData
@@ -43,7 +47,7 @@ class CreateUserCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST('/adduser', [
+        $I->sendPOST($this->buildCallingUrl('/adduser'), [
             'forename' => 'Jim',
             'surname' => 'Biddersdale'
         ]);
@@ -56,7 +60,7 @@ class CreateUserCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendGET('/getusers');
+        $I->sendGET($this->buildCallingUrl('/getusers'));
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
         $I->seeResponseContainsJson([

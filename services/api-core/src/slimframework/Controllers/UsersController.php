@@ -16,7 +16,7 @@ class UsersController extends ControllerAbstract {
      * @param array $args
      * @return Response
      */
-    public function getUsers(Request $request, Response $response, array$args) {
+    public function getUsers(Request $request, Response $response, array $args) {
         $allUsers = $this->getBlueGoCore()
             ->getLoaders()
             ->getUsersLoader()
