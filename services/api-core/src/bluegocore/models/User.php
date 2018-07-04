@@ -63,14 +63,6 @@ class User implements BsonPopulatable{
         }
     }
 
-    public function setAge($age) {
-        // Todo: remove this - unnecessary field, just interesting for testing
-        if(!is_int($age)){
-            throw new \InvalidArgumentException('$name must be an integer, instead found' . var_export($age, true));
-        }
-        $this->userData['age'] = $age;
-    }
-
     public function getUniqueId() {
         $this->ensureUniqueId();
         return $this->userData['uniqueId'];

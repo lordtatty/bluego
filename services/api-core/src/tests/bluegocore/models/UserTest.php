@@ -11,7 +11,6 @@ class UserTest extends \PHPUnit_Framework_TestCase {
         return [
             'uniqueId' => uniqid(),
             'name' => 'Jim',
-            'age' => 40
         ];
     }
 

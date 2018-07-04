@@ -38,7 +38,6 @@ class UsersController extends ControllerAbstract {
     public function addUser(Request $request, Response $response, array $args) {
         $user = new \BlueGoCore\Models\User();
         $user->setName($request->getParam('name'));
-        $user->setAge($request->getParam('age'));
 
         $writer = $this->getBlueGoCore()
             ->getWriters()
