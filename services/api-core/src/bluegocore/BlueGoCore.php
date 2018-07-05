@@ -17,7 +17,7 @@ class BlueGoCore {
     /**
      * @return \BlueGoCore\Loaders\ReadersFactory
      */
-    public function getLoaders() {
+    public function getReaders() {
         return new ReadersFactory($this->getDatabaseFactory());
     }
 
