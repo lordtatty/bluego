@@ -76,9 +76,10 @@ class User implements BsonPopulatable{
         }
     }
 
-    public function getUniqueId() {
-        $this->ensureUniqueId();
-        return $this->userData['uniqueId'];
+    public function getUniqueId(){
+        if(isset($this->userData['uniqueId'])){
+            return $this->userData['uniqueId'];
+        }
     }
 
     protected function ensureUniqueId(){
