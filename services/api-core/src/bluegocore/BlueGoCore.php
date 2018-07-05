@@ -3,7 +3,7 @@
 namespace BlueGoCore;
 
 use BlueGoCore\Databases\DatabaseFactory;
-use BlueGoCore\Loaders\ReadersFactory;
+use BlueGoCore\Readers\ReadersFactory;
 use BlueGoCore\Writers\WritersFactory;
 
 class BlueGoCore {
@@ -15,7 +15,7 @@ class BlueGoCore {
     }
 
     /**
-     * @return \BlueGoCore\Loaders\ReadersFactory
+     * @return \BlueGoCore\Readers\ReadersFactory
      */
     public function getReaders() {
         return new ReadersFactory($this->getDatabaseFactory());

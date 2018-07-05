@@ -7,7 +7,7 @@ namespace BlueGoCore\Models;
  *
  * Represents an individual user
  * It does not handle the loading or writing of data,
- * see the Loader and Writer classes for that
+ * see the Reader and Writer classes for that
  *
  * @package BlueGoCore\Models
  */

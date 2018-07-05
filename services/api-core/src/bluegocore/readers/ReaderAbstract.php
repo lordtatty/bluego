@@ -1,6 +1,6 @@
 <?php
 
-namespace BlueGoCore\Loaders;
+namespace BlueGoCore\Readers;
 use BlueGoCore\Databases\DatabaseFactory;
 
 abstract class ReaderAbstract {
@@ -13,7 +13,7 @@ abstract class ReaderAbstract {
     }
 
     /**
-     * Get the default database used by this loader
+     * Get the default database used by this Reader
      *
      * @return \BlueGoCore\Databases\Types\DatabaseMongo
      */

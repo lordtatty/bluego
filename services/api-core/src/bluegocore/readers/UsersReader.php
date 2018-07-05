@@ -1,13 +1,13 @@
 <?php
 
-namespace BlueGoCore\Loaders;
+namespace BlueGoCore\Readers;
 
 use BlueGoCore\Models\User;
 
 /**
  * Class UsersReader
  *
- * @package BlueGoCore\Loaders
+ * @package BlueGoCore\Readers
  */
 class UsersReader extends ReaderAbstract{
 

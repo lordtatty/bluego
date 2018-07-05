@@ -1,6 +1,6 @@
 <?php
 
-namespace BlueGoCore\Loaders;
+namespace BlueGoCore\Readers;
 
 use BlueGoCore\Databases\DatabaseFactory;
 
@@ -14,9 +14,9 @@ class ReadersFactory {
     }
 
     /**
-     * @return \BlueGoCore\Loaders\UsersReader
+     * @return \BlueGoCore\Readers\UsersReader
      */
     public function getUsersReader(){
-        return new \BlueGoCore\Loaders\UsersReader($this->databaseFactory);
+        return new \BlueGoCore\Readers\UsersReader($this->databaseFactory);
     }
 }
