@@ -2,8 +2,6 @@
 
 namespace BlueGoCore\Models;
 
-use MongoDB\Model\BSONDocument;
-
 /**
  * Class User
  *
@@ -13,92 +11,53 @@ use MongoDB\Model\BSONDocument;
  *
  * @package BlueGoCore\Models
  */
-class User implements BsonPopulatable{
-
-    protected $userData = [];
+class User extends ModelAbstract {
 
     /**
-     * Get an array of the data in this
-     * object
+     * Set the User's Forename
      *
-     * @return array
+     * @param $name
      */
-    public function getArray(){
-        $this->ensureUniqueId();
-        $responseArray = $this->userData;
-        unset($responseArray['_id']);
-        return $responseArray;
-    }
-
-    /**
-     * Populate this object via a MongoDb BSON Object
-     *
-     * @param BSONDocument $bson
-     */
-    public function setByBson(BSONDocument $bson)
-    {
-        $this->setByArray((array)$bson);
-    }
-
-    /**
-     * Populate this object via an array
-     *
-     * @param array $array
-     */
-    public function setByArray(array $array)
-    {
-        $this->userData = $array;
-    }
-
     public function setForename($name) {
         if(!is_string($name)){
             throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
         }
-        $this->userData['forename'] = $name;
+        $this->modelData['forename'] = $name;
     }
 
+    /**
+     * Get the User's Forename
+     *
+     * @return string
+     */
     public function getForename(){
-        if(isset($this->userData['forename'])){
-            return $this->userData['forename'];
-        }
-    }
-
-    public function setSurname($name) {
-        if(!is_string($name)){
-            throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
-        }
-        $this->userData['surname'] = $name;
-    }
-
-    public function getSurname(){
-        if(isset($this->userData['surname'])){
-            return $this->userData['surname'];
-        }
-    }
-
-    public function getUniqueId(){
-        if(!isset($this->userData['uniqueId'])){
-            $this->userData['uniqueId'] = $this->uuid();
-        }
-        return $this->userData['uniqueId'];
-    }
-
-    protected function ensureUniqueId(){
-        if(!isset($this->userData['uniqueId'])){
-            $this->userData['uniqueId'] = $this->uuid();
+        if(isset($this->modelData['forename'])){
+            return $this->modelData['forename'];
         }
     }
 
     /**
-     * TODO: Move this out of here, perhaps to a parent class
-     * @return string
-     * @see http://www.seanbehan.com/how-to-generate-a-uuid-in-php/
+     * Set the user's surname
+     *
+     * @param $name
      */
-    public function uuid(){
-        $data = random_bytes(16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    public function setSurname($name) {
+        if(!is_string($name)){
+            throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
+        }
+        $this->modelData['surname'] = $name;
     }
+
+    /**
+     * Get the user's surname
+     *
+     * @return string
+     */
+    public function getSurname(){
+        if(isset($this->modelData['surname'])){
+            return $this->modelData['surname'];
+        }
+    }
+
 
 }
