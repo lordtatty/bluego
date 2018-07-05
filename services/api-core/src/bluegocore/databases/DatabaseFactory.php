@@ -4,19 +4,25 @@ namespace BlueGoCore\Databases;
 
 
 class DatabaseFactory {
+    /** @var DatabaseConfig $databaseConfig */
+    protected $databaseConfig;
 
-    protected $dbName;
-
-    public function __construct($dbName){
-        if(!$dbName){
-            throw new \Exception("\$dbName must be a string, instead found". var_export($dbName, true));
-        }
-        $this->dbName = $dbName;
+    /**
+     * Constructor
+     *
+     * @param DatabaseConfig $databaseConfig
+     */
+    public function __construct(DatabaseConfig $databaseConfig){
+        $this->databaseConfig = $databaseConfig;
     }
 
+    /**
+     * Get a mongo database helper object
+     * @return DatabaseMongo
+     */
     public function getMongoDatabase()
     {
-        return new DatabaseMongo('mongodb://mongodb:27017', $this->dbName, 'testcollection');
+        return new DatabaseMongo($this->databaseConfig, 'testcollection');
     }
 
 }
