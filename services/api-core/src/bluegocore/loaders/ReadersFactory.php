@@ -4,7 +4,7 @@ namespace BlueGoCore\Loaders;
 
 use BlueGoCore\Databases\DatabaseFactory;
 
-class LoadersFactory {
+class ReadersFactory {
 
     /** @var \BlueGoCore\Databases\DatabaseFactory */
     protected $databaseFactory;
@@ -14,9 +14,9 @@ class LoadersFactory {
     }
 
     /**
-     * @return \BlueGoCore\Loaders\UsersLoader
+     * @return \BlueGoCore\Loaders\UsersReader
      */
-    public function getUsersLoader(){
-        return new \BlueGoCore\Loaders\UsersLoader($this->databaseFactory);
+    public function getUsersReader(){
+        return new \BlueGoCore\Loaders\UsersReader($this->databaseFactory);
     }
 }

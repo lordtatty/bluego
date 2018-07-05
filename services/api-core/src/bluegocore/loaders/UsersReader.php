@@ -5,11 +5,11 @@ namespace BlueGoCore\Loaders;
 use BlueGoCore\Models\User;
 
 /**
- * Class UsersLoader
+ * Class UsersReader
  *
  * @package BlueGoCore\Loaders
  */
-class UsersLoader extends LoaderAbstract{
+class UsersReader extends ReaderAbstract{
 
     /**
      * Returns an array of all known users

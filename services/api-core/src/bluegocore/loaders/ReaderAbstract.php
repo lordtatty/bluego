@@ -3,7 +3,7 @@
 namespace BlueGoCore\Loaders;
 use BlueGoCore\Databases\DatabaseFactory;
 
-abstract class LoaderAbstract {
+abstract class ReaderAbstract {
 
     /** @var \BlueGoCore\Databases\DatabaseFactory */
     protected $databaseFactory;
