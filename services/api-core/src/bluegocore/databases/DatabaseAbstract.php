@@ -3,8 +3,14 @@
 namespace BlueGoCore\Databases;
 
 
-class DatabaseAbstract {
+abstract class DatabaseAbstract {
 
-    protected $endpoint;
+    protected $dbConfig;
+    protected $collection;
+
+    public function __construct(DatabaseConfig $dbConfig, $collection){
+        $this->dbConfig = $dbConfig;
+        $this->collection = $collection;
+    }
 
 } 

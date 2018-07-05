@@ -3,16 +3,9 @@
 namespace BlueGoCore\Databases;
 
 
-class DatabaseMongo {
+class DatabaseMongo extends DatabaseAbstract{
 
     protected $client;
-    protected $dbConfig;
-    protected $collection;
-
-    public function __construct(DatabaseConfig $dbConfig, $collection){
-        $this->dbConfig = $dbConfig;
-        $this->collection = $collection;
-    }
 
     public function getClient() {
         if(!isset($client)) {
