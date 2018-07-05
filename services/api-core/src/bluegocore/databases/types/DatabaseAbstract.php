@@ -1,7 +1,8 @@
 <?php
 
-namespace BlueGoCore\Databases;
+namespace BlueGoCore\Databases\Types;
 
+use BlueGoCore\Databases\DatabaseConfig;
 
 abstract class DatabaseAbstract {
 

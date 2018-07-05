@@ -1,7 +1,6 @@
 <?php
 
-namespace BlueGoCore\Databases;
-
+namespace BlueGoCore\Databases\Types;
 
 class DatabaseMongo extends DatabaseAbstract{
 

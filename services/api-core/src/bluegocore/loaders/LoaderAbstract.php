@@ -15,7 +15,7 @@ abstract class LoaderAbstract {
     /**
      * Get the default database used by this loader
      *
-     * @return \BlueGoCore\Databases\DatabaseMongo
+     * @return \BlueGoCore\Databases\Types\DatabaseMongo
      */
     protected function getDefaultDatabase(){
         return $this->databaseFactory->getMongoDatabase();

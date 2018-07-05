@@ -15,7 +15,7 @@ abstract class WriterAbstract {
     /**
      * Get the default database used by this writer
      *
-     * @return \BlueGoCore\Databases\DatabaseMongo
+     * @return \BlueGoCore\Databases\Types\DatabaseMongo
      */
     protected function getDefaultDatabase(){
         return $this->databaseFactory->getMongoDatabase();

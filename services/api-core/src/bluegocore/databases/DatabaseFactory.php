@@ -2,6 +2,7 @@
 
 namespace BlueGoCore\Databases;
 
+use BlueGoCore\Databases\Types\DatabaseMongo;
 
 class DatabaseFactory {
     /** @var DatabaseConfig $databaseConfig */
