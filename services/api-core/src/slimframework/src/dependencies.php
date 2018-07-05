@@ -26,6 +26,7 @@ $container['errorHandler'] = function ($container) {
         /** @var \Exception $exception */
         $logMessage = $exception->getMessage() . "::" . "File: " . $exception->getFile() . "::" . "Line: " . $exception->getLine();
         $logger->error($logMessage);
+        $logger->error($exception->getTraceAsString());
 
         // Parse it with the json api library
         $errors = new \Tobscure\JsonApi\ErrorHandler();

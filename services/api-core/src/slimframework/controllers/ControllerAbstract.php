@@ -1,6 +1,8 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\BlueGoCore;
+use BlueGoCore\Databases\DatabaseFactory;
 use Interop\Container\ContainerInterface;
 use Tobscure\JsonApi\Document;
 use Tobscure\JsonApi\Collection;
@@ -15,24 +17,85 @@ class ControllerAbstract {
     protected $request;
     /** @var Response */
     protected $response;
+    /** @var \Monolog\Logger */
+    protected $logger;
+    /** @var BlueGoCore */
+    protected $blueGoCore;
 
-    // constructor receives container instance
+    /**
+     * Constructor
+     *
+     * Stores the container and logger internally
+     *
+     * Also see the __call magic method.  Magic methods
+     * are a bit ugh, but I can't work out how else to
+     * easily set up all the reusable components in slim without
+     * repeating code in every method.  So all implemented
+     * handler methods must be non-public to make
+     * sure call gets invoked.
+     *
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container) {
         $this->container = $container;
-        $this->request = $container->get('request');
-        $this->response = $container->get('response');
         $this->logger = $container->get('logger');
 
+    }
+
+    /**
+     * Magic methods
+     * are a bit ugh, but I can't work out how else to
+     * easily set up all the reusable components without
+     * repeating code in every method.  So all implemented
+     * handler methods must be non-public to make
+     * sure call gets invoked.
+     *
+     * @param $name
+     * @param $args
+     * @return mixed
+     */
+    public function __call($name, $args) {
+        $this->request = $args[0];
+        $this->response = $args[1];
+        $instance = $args[2]['instance'];
+
         $path = $this->request->getUri()->getPath();
+        $this->logger->info("BlueGo-API: '$path' route");
 
-        $this->logger->info("BlueGo '$path' route");
+        $this->blueGoCore = new BlueGoCore(
+            new DatabaseFactory($instance)
+        );
 
+        return call_user_func_array(array($this, $name), $args);
     }
 
-    public function getBlueGoCore(){
-        return new \BlueGoCore\BlueGoCore();
+    /**
+     * Returns a BlueGoCore object
+     *
+     * Handy helper method for
+     * implemented handler methods.
+     * The obejct is instantiated and
+     * configured in the _call magic
+     * method
+     *
+     * @return BlueGoCore
+     */
+    protected function getBlueGoCore(){
+        return $this->blueGoCore;
     }
 
+    /**
+     * Get a document describing the
+     * response in a JSON api format.
+     *
+     * We simply pass an array of all objects
+     * which need to be returned.  This method
+     * will not be called outside of this Abstract
+     * class
+     *
+     * @param array $objects
+     * @return Document
+     */
     private function getJsonAPIDocument(array $objects){
         // Create a new collection of posts, and specify relationships to be included.
         $collection = (new Collection($objects, new \JsonApi\Tobscure\Serialisers\UserSerialiser()))

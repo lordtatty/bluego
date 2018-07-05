@@ -16,8 +16,8 @@ class UsersController extends ControllerAbstract {
      * @param array $args
      * @return Response
      */
-    public function getUsers(Request $request, Response $response, array $args) {
-        $allUsers = $this->getBlueGoCore()
+    protected function getUsers(Request $request, Response $response, array $args) {
+        $allUsers = $this->getBlueGoCore($request)
             ->getLoaders()
             ->getUsersLoader()
             ->getAllUsers();
@@ -35,12 +35,12 @@ class UsersController extends ControllerAbstract {
      * @param array $args
      * @return Response
      */
-    public function addUser(Request $request, Response $response, array $args) {
+    protected function addUser(Request $request, Response $response, array $args) {
         $user = new \BlueGoCore\Models\User();
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
 
-        $writer = $this->getBlueGoCore()
+        $writer = $this->getBlueGoCore($request)
             ->getWriters()
             ->getUsersWriter();
         $writer->saveToDb($user);
