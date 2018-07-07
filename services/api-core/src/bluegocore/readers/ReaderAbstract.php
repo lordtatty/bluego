@@ -2,6 +2,7 @@
 
 namespace BlueGoCore\Readers;
 use BlueGoCore\Databases\DatabaseFactory;
+use BlueGoCore\Models\ModelAbstract;
 
 abstract class ReaderAbstract {
 
@@ -21,6 +22,25 @@ abstract class ReaderAbstract {
      * @return string the pod name
      */
     abstract protected function _getPodName();
+
+    /**
+     * Get an instance of the model for this writer.
+     *
+     * @return ModelAbstract the Model
+     */
+    abstract protected function _getModel();
+
+    /**
+     * Get an instance of the model for this writer.
+     *
+     * @return ModelAbstract the Model
+     */
+    protected function _getPopulatedModel($data)
+    {
+        $model = $this->_getModel();
+        $model->setByBson($data);
+        return $model;
+    }
 
     /**
      * Get the default database used by this writer

@@ -2,8 +2,6 @@
 
 namespace BlueGoCore\Writers;
 
-use BlueGoCore\Models\User;
-
 class UsersWriter extends WriterAbstract{
 
     /**
@@ -17,15 +15,6 @@ class UsersWriter extends WriterAbstract{
     protected function _getPodName()
     {
         return 'users';
-    }
-
-    /**
-     * @param User $user
-     * @throws \Exception
-     */
-    function saveToDb(User $user) {
-        $data = $user->getArray();
-        $this->_getDefaultDatabase()->insertData($data);
     }
 
 
