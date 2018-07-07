@@ -6,4 +6,4 @@ services:
         image: composer/composer
         volumes:
             - ../../services/web-yii/src:/app
-        command: install --ignore-platform-reqs
+        command: install --ignore-platform-reqs --classmap-authoritative
