@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\BlueGoCore\Models;
+namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 

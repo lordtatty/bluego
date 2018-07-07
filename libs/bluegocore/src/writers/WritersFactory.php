@@ -2,27 +2,27 @@
 
 namespace BlueGoCore\Writers;
 
-use BlueGoCore\Databases\DatabaseFactory;
+use BlueGoCore\Storage\StorageFactory;
 
 class WritersFactory {
 
-    protected $databaseFactory;
+    protected $storageFactory;
 
-    public function __construct(DatabaseFactory $databaseFactory){
-        $this->databaseFactory = $databaseFactory;
+    public function __construct(StorageFactory $storageFactory){
+        $this->storageFactory = $storageFactory;
     }
 
     /**
      * @return \BlueGoCore\Writers\UsersWriter
      */
     public function getUsersWriter(){
-        return new \BlueGoCore\Writers\UsersWriter($this->databaseFactory);
+        return new \BlueGoCore\Writers\UsersWriter($this->storageFactory);
     }
 
     /**
      * @return \BlueGoCore\Writers\UsersWriter
      */
     public function getCoursesWriter(){
-        return new \BlueGoCore\Writers\CoursesWriter($this->databaseFactory);
+        return new \BlueGoCore\Writers\CoursesWriter($this->storageFactory);
     }
 }

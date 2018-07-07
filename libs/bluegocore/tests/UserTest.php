@@ -1,5 +1,5 @@
 <?php
-namespace Tests\BlueGoCore\Models;
+namespace Tests;
 
 use BlueGoCore\Models\User;
 

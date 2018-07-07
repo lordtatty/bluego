@@ -1,8 +1,8 @@
 <?php
 
-namespace BlueGoCore\Databases\Types;
+namespace BlueGoCore\Storage\Types;
 
-class DatabaseMongo extends DatabaseAbstract{
+class StorageTypeMongo extends StorageTypeAbstract{
 
     protected $client;
 

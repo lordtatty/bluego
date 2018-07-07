@@ -2,8 +2,8 @@
 namespace SlimFramework\Controllers;
 
 use BlueGoCore\BlueGoCore;
-use BlueGoCore\Databases\DatabaseConfig;
-use BlueGoCore\Databases\DatabaseFactory;
+use BlueGoCore\Storage\StorageConfig;
+use BlueGoCore\Storage\StorageFactory;
 use Interop\Container\ContainerInterface;
 use Tobscure\JsonApi\Document;
 use Tobscure\JsonApi\Collection;
@@ -63,12 +63,12 @@ abstract class ControllerAbstract {
         $path = $this->request->getUri()->getPath();
         $this->logger->info("BlueGo-API: '$path' route");
 
-        $dbConfig = new DatabaseConfig();
+        $dbConfig = new StorageConfig();
         $dbConfig->setEndpoint('mongodb://mongodb:27017');
         $dbConfig->setDatabaseName($instance);
 
         $this->blueGoCore = new BlueGoCore(
-            new DatabaseFactory($dbConfig)
+            new StorageFactory($dbConfig)
         );
 
         return call_user_func_array(array($this, $name), $args);

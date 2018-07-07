@@ -1,8 +1,8 @@
 <?php
-namespace BlueGoCore\Databases;
+namespace BlueGoCore\Storage;
 
 
-class DatabaseConfig {
+class StorageConfig {
     protected $endpoint;
     protected $databaseName;
 

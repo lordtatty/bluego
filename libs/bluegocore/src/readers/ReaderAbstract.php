@@ -1,16 +1,16 @@
 <?php
 
 namespace BlueGoCore\Readers;
-use BlueGoCore\Databases\DatabaseFactory;
+use BlueGoCore\Storage\StorageFactory;
 use BlueGoCore\Models\ModelAbstract;
 
 abstract class ReaderAbstract {
 
-    /** @var \BlueGoCore\Databases\DatabaseFactory */
-    protected $databaseFactory;
+    /** @var \BlueGoCore\Storage\StorageFactory */
+    protected $storageFactory;
 
-    public function __construct(DatabaseFactory $factory){
-        $this->databaseFactory = $factory;
+    public function __construct(StorageFactory $factory){
+        $this->storageFactory = $factory;
     }
 
     /**
@@ -45,10 +45,10 @@ abstract class ReaderAbstract {
     /**
      * Get the default database used by this writer
      *
-     * @return \BlueGoCore\Databases\Types\DatabaseMongo
+     * @return \BlueGoCore\Storage\Types\StorageTypeMongo
      */
     protected function _getDefaultDatabase(){
-        return $this->databaseFactory->getDatabase($this->_getPodName());
+        return $this->storageFactory->getStorage($this->_getPodName());
     }
 
 } 
