@@ -18,7 +18,7 @@ abstract class ReaderAbstract {
      * @return \BlueGoCore\Databases\Types\DatabaseMongo
      */
     protected function getDefaultDatabase(){
-        return $this->databaseFactory->getMongoDatabase();
+        return $this->databaseFactory->getDatabase('users');
     }
 
 } 

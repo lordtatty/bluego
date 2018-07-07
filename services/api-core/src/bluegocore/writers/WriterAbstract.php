@@ -13,12 +13,22 @@ abstract class WriterAbstract {
     }
 
     /**
+     * Get the pod name for this model.
+     *
+     * In MongoDb this will be the collection name
+     * In MySQL this will be the table name
+     *
+     * @return string the pod name
+     */
+    abstract protected function _getPodName();
+
+    /**
      * Get the default database used by this writer
      *
      * @return \BlueGoCore\Databases\Types\DatabaseMongo
      */
-    protected function getDefaultDatabase(){
-        return $this->databaseFactory->getMongoDatabase();
+    protected function _getDefaultDatabase(){
+        return $this->databaseFactory->getDatabase($this->_getPodName());
     }
 
 } 

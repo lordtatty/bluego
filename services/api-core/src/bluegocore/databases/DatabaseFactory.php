@@ -18,12 +18,14 @@ class DatabaseFactory {
     }
 
     /**
-     * Get a mongo database helper object
+     * Get a database helper object
+     *
+     * @param string$podName
      * @return DatabaseMongo
      */
-    public function getMongoDatabase()
+    public function getDatabase($podName)
     {
-        return new DatabaseMongo($this->databaseConfig, 'testcollection');
+        return new DatabaseMongo($this->databaseConfig, $podName);
     }
 
 }
