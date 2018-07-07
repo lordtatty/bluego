@@ -2,23 +2,15 @@
     "name": "lordtatty/bluegocore",
     "description": "The core of the bluego syste,",
     "keywords": ["vle", "lms"],
-    "homepage": "",
     "license": "MIT",
     "version": "1.0.0",
-    "authors": [
-        {
-            "name": "",
-            "email": "",
-            "homepage": ""
-        }
-    ],
     "require": {
         "php": ">=5.5.0",
         "monolog/monolog": "^1.17",
         "mongodb/mongodb": "^1.4"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=4.8 < 6.0"
+        "phpunit/phpunit": "^6.0"
     },
     "autoload": {
         "psr-4": {

@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-echo "Running Unit Tests..."
-docker exec -it dockercomposetestnetwork_api-core_1 bash -c "vendor/bin/phpunit"
+echo "Running BlueGoCore Unit Tests..."
+docker run -v $(pwd)/libs/bluegocore/:/app --rm phpunit/phpunit ./tests

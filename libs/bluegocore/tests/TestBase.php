@@ -1,10 +1,10 @@
 <?php
 
-
 namespace Tests\BlueGoCore\Models;
 
+use PHPUnit\Framework\TestCase;
 
-abstract class TestBase extends \PHPUnit_Framework_TestCase {
+abstract class TestBase extends TestCase {
 
     /** @var \BlueGoCore\Models\ModelAbstract */
     protected $sut;
@@ -36,8 +36,7 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
     public function testGetArrayEnsuresUniqueId() {
         $userDataArray = $this->sut->getArray();
         $this->assertArrayHasKey('uniqueId', $userDataArray);
-        $this->assertNotEmpty($userDataArray['uniqueId'], $userDataArray['']);
-        $this->arrayHasKey('uniqueId', $userDataArray);
+        $this->assertNotEmpty($userDataArray['uniqueId']);
         $this->assertStringMatchesFormat('%s', $userDataArray['uniqueId']);
     }
 

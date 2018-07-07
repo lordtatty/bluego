@@ -1,6 +1,7 @@
 .idea/
 services/web-yii/src/vendor/
 services/api-core/src/vendor/
+libs/bluegocore/vendor/
 
 build/data
 
