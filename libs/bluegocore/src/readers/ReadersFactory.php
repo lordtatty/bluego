@@ -19,4 +19,11 @@ class ReadersFactory {
     public function getUsersReader(){
         return new \BlueGoCore\Readers\UsersReader($this->databaseFactory);
     }
+
+    /**
+     * @return \BlueGoCore\Readers\CoursesReader
+     */
+    public function getCoursesReader(){
+        return new \BlueGoCore\Readers\CoursesReader($this->databaseFactory);
+    }
 }

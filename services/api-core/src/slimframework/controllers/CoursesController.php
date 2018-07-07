@@ -13,24 +13,24 @@ class CoursesController extends ControllerAbstract {
         return new CoursesSerialiser();
     }
 
-//    /**
-//     * GetUsers route
-//     *
-//     * This gets all users
-//     *
-//     * @param Request $request
-//     * @param Response $response
-//     * @param array $args
-//     * @return Response
-//     */
-//    protected function getUsers(Request $request, Response $response, array $args) {
-//        $allUsers = $this->getBlueGoCore($request)
-//            ->getReaders()
-//            ->getUsersReader()
-//            ->getAllUsers();
-//
-//        return $this->buildJsonAPIResponse(200, $allUsers);
-//    }
+    /**
+     * GetUsers route
+     *
+     * This gets all users
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    protected function getCourses(Request $request, Response $response, array $args) {
+        $allUsers = $this->getBlueGoCore($request)
+            ->getReaders()
+            ->getCoursesReader()
+            ->getAllUsers();
+
+        return $this->buildJsonAPIResponse(200, $allUsers);
+    }
 
     /**
      * Add Course route

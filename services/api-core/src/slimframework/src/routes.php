@@ -11,5 +11,6 @@ $app->group('/{instance}', function () {
         $this->group('/courses', function () {
                 $className = \SlimFramework\Controllers\CoursesController::class;
                 $this->post('/add', $className . ':addCourse');
+                $this->get('/getall', $className . ':getCourses');
             });
     });

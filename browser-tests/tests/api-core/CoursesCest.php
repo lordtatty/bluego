@@ -58,7 +58,7 @@ class CoursesCest
             'course_code' => 'course_1'
         ]);
         $I->seeResponseCodeIs(200);
-        $this->expectUsersJsonApiStructure($I);
+        $this->expectCoursesJsonApiStructure($I);
         $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
         $I->seeResponseEquals(json_encode([
             "links" => [
@@ -81,55 +81,55 @@ class CoursesCest
         ]));
     }
 
-//    public function getUsers_happy_path(\ApiTester $I)
-//    {
-//        $I->amHttpAuthenticated('service_user', '123456');
-//        $I->haveHttpHeader('Content-Type', 'application/json');
-//        $I->sendPOST($this->buildCallingUrl('/adduser'), [
-//                'forename' => 'Alice',
-//                'surname' => 'Crompton'
-//            ]);
-//
-//        $I->sendPOST($this->buildCallingUrl('/adduser'), [
-//                'forename' => 'Jim',
-//                'surname' => 'Biddersdale'
-//            ]);
-//        $I->sendGET($this->buildCallingUrl('/getusers'));
-//        $I->seeResponseCodeIs(200);
-//        $this->expectUsersJsonApiStructure($I);
-//        $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
-//        $I->seeResponseEquals(json_encode([
-//            "links" => [
-//                "self" => "http://api-core/". $this->instanceName ."/getusers"
-//            ],
-//            "data" => [
-//                [
-//                    "type" => "users",
-//                    "id" => $id[0],
-//                    "attributes" => [
-//                        "forename" => "Alice",
-//                        "surname" => "Crompton",
-//                        "uniqueId" => $id[0]
-//                    ],
-//                ],
-//                [
-//                    "type" => "users",
-//                    "id" => $id[1],
-//                    "attributes" => [
-//                        "forename" => "Jim",
-//                        "surname" => "Biddersdale",
-//                        "uniqueId" => $id[1]
-//                    ]
-//                ]
-//            ],
-//            "meta" => [
-//                "total" => 2
-//            ]
-//         ]));
-//
-//    }
+    public function get_all_courses_happy_path(\ApiTester $I)
+    {
+        $I->amHttpAuthenticated('service_user', '123456');
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST($this->buildCallingUrl('/courses/add'), [
+                'title' => 'Course 1',
+                'course_code' => 'course_1'
+            ]);
 
-    protected function expectUsersJsonApiStructure(\ApiTester $I) {
+        $I->sendPOST($this->buildCallingUrl('/courses/add'), [
+                'title' => 'Course 2',
+                'course_code' => 'course_2'
+            ]);
+        $I->sendGET($this->buildCallingUrl('/courses/getall'));
+        $I->seeResponseCodeIs(200);
+        $this->expectCoursesJsonApiStructure($I);
+        $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
+        $I->seeResponseEquals(json_encode([
+            "links" => [
+                "self" => "http://api-core/". $this->instanceName ."/courses/getall"
+            ],
+            "data" => [
+                [
+                    "type" => "courses",
+                    "id" => $id[0],
+                    "attributes" => [
+                        'title' => 'Course 1',
+                        'course_code' => 'course_1',
+                        "uniqueId" => $id[0]
+                    ],
+                ],
+                [
+                    "type" => "courses",
+                    "id" => $id[1],
+                    "attributes" => [
+                        'title' => 'Course 2',
+                        'course_code' => 'course_2',
+                        "uniqueId" => $id[1]
+                    ]
+                ]
+            ],
+            "meta" => [
+                "total" => 2
+            ]
+         ]));
+
+    }
+
+    protected function expectCoursesJsonApiStructure(\ApiTester $I) {
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.links.self');
         $I->seeResponseJsonMatchesJsonPath('$.data[*].type');
