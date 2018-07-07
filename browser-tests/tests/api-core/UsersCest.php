@@ -1,8 +1,14 @@
 <?php
 class CreateUserCest
 {
+    protected $instanceName;
+    protected $usedInstanceNames = [];
     public function _before(\ApiTester $I)
     {
+        do {
+            $this->instanceName =  uniqid('BlueGoTest_');
+        } while(isset($this->usedInstanceNames[$this->instanceName]));
+        $this->usedInstanceNames[$this->instanceName] = true;
     }
 
     public function _after(\ApiTester $I)
@@ -10,7 +16,7 @@ class CreateUserCest
     }
 
     protected function buildCallingUrl($url){
-        return '/test' . $url;
+        return '/' . $this->instanceName . $url;
     }
 
     /**
@@ -53,13 +59,36 @@ class CreateUserCest
         ]);
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
-//        $I->seeResponseEquals('');
+        $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
+        $I->seeResponseEquals(json_encode([
+            "links" => [
+                "self" => "http://api-core/". $this->instanceName ."/adduser"
+            ],
+            "data" => [
+                [
+                    "type" => "users",
+                    "id" => $id,
+                    "attributes" => [
+                    "forename" => "Jim",
+                        "surname" => "Biddersdale",
+                        "uniqueId" => $id
+                    ]
+                ]
+            ],
+            "meta" => [
+                "total" => 1
+            ]
+        ]));
     }
 
     public function getUsers_happy_path(\ApiTester $I)
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST($this->buildCallingUrl('/adduser'), [
+                'forename' => 'Jim',
+                'surname' => 'Biddersdale'
+            ]);
         $I->sendGET($this->buildCallingUrl('/getusers'));
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
