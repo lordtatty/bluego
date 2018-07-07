@@ -2,7 +2,14 @@
 
 // Routes
 $app->group('/{instance}', function () {
-        $this->post('/users/add', \SlimFramework\Controllers\UsersController::class . ':addUser');
-        $this->get('/users/getall', \SlimFramework\Controllers\UsersController::class . ':getUsers');
-        $this->post('/addcourse', \SlimFramework\Controllers\CoursesController::class . ':addCourse');
+        $this->group('/users', function (){
+                $className = \SlimFramework\Controllers\UsersController::class;
+                $this->post('/add', $className . ':addUser');
+                $this->get('/getall', $className . ':getUsers');
+
+            });
+        $this->group('/courses', function () {
+                $className = \SlimFramework\Controllers\CoursesController::class;
+                $this->post('/add', $className . ':addCourse');
+            });
     });

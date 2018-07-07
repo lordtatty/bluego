@@ -53,7 +53,7 @@ class CoursesCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/addcourse'), [
+        $I->sendPOST($this->buildCallingUrl('/courses/add'), [
             'title' => 'Course 1',
             'course_code' => 'course_1'
         ]);
@@ -62,7 +62,7 @@ class CoursesCest
         $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
         $I->seeResponseEquals(json_encode([
             "links" => [
-                "self" => "http://api-core/". $this->instanceName ."/addcourse"
+                "self" => "http://api-core/". $this->instanceName ."/courses/add"
             ],
             "data" => [
                 [
