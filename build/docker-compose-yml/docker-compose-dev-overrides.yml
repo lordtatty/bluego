@@ -8,3 +8,4 @@ services:
     api-core:
         volumes:
           - ../../services/api-core/src:/var/www/html
+          - ../../libs/bluegocore/src:/var/www/html/vendor/lordtatty/bluegocore/src
