@@ -10,7 +10,7 @@ use Tobscure\JsonApi\Collection;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ControllerAbstract {
+abstract class ControllerAbstract {
 
     /** @var ContainerInterface  */
     protected $container;
@@ -89,6 +89,8 @@ class ControllerAbstract {
         return $this->blueGoCore;
     }
 
+    abstract protected function _getJsonApiSerialiser();
+
     /**
      * Get a document describing the
      * response in a JSON api format.
@@ -103,7 +105,7 @@ class ControllerAbstract {
      */
     private function getJsonAPIDocument(array $objects){
         // Create a new collection of posts, and specify relationships to be included.
-        $collection = (new Collection($objects, new \JsonApi\Tobscure\Serialisers\UserSerialiser()))
+        $collection = (new Collection($objects, $this->_getJsonApiSerialiser()))
             ->with(['author', 'comments']);
 
         // Create a new JSON-API document with that collection as the data.

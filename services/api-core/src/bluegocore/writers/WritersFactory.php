@@ -18,4 +18,11 @@ class WritersFactory {
     public function getUsersWriter(){
         return new \BlueGoCore\Writers\UsersWriter($this->databaseFactory);
     }
+
+    /**
+     * @return \BlueGoCore\Writers\UsersWriter
+     */
+    public function getCoursesWriter(){
+        return new \BlueGoCore\Writers\CoursesWriter($this->databaseFactory);
+    }
 }

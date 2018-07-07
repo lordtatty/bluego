@@ -2,7 +2,7 @@
 
 namespace BlueGoCore\Writers;
 use BlueGoCore\Databases\DatabaseFactory;
-use BlueGoCore\Models\User;
+use BlueGoCore\Models\ModelAbstract;
 
 abstract class WriterAbstract {
 
@@ -14,10 +14,10 @@ abstract class WriterAbstract {
     }
 
     /**
-     * @param User $user
+     * @param ModelAbstract $user
      * @throws \Exception
      */
-    function saveToDb(User $user)
+    function saveToDb(ModelAbstract $user)
     {
         $data = $user->getArray();
         $this->_getDefaultDatabase()->insertData($data);

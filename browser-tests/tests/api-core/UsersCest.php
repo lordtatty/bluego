@@ -1,5 +1,5 @@
 <?php
-class CreateUserCest
+class UsersCest
 {
     protected $instanceName;
     protected $usedInstanceNames = [];

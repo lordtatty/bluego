@@ -6,6 +6,11 @@ use Slim\Http\Response;
 
 class UsersController extends ControllerAbstract {
 
+    protected function _getJsonApiSerialiser()
+    {
+        return new \JsonApi\Tobscure\Serialisers\UserSerialiser();
+    }
+
     /**
      * GetUsers route
      *
