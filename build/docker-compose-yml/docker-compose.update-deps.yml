@@ -5,5 +5,11 @@ services:
         restart: 'no'
         image: composer/composer
         volumes:
-            - ../../services/web-yii/src:/app
-        command: update --ignore-platform-reqs
+            - ../../:/app
+        command: update --ignore-platform-reqs --classmap-authoritative --working-dir="./services/web-yii/src"
+    composer-api-core:
+        restart: 'no'
+        image: composer/composer
+        volumes:
+            - ../../:/app
+        command: update --ignore-platform-reqs --classmap-authoritative --working-dir="./services/api-core/src"
