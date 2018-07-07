@@ -16,13 +16,10 @@ class User extends ModelAbstract {
     /**
      * Set the User's Forename
      *
-     * @param $name
+     * @param $forename
      */
-    public function setForename($name) {
-        if(!is_string($name)){
-            throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
-        }
-        $this->modelData['forename'] = $name;
+    public function setForename($forename) {
+        $this->_setModelProperty('forename', $forename, 'string');
     }
 
     /**
@@ -31,22 +28,17 @@ class User extends ModelAbstract {
      * @return string
      */
     public function getForename(){
-        if(isset($this->modelData['forename'])){
-            return $this->modelData['forename'];
-        }
+        return $this->_getModelProperty('forename');
     }
 
     /**
      * Set the user's surname
      *
-     * @param $name
+     * @param $surname
      */
-    public function setSurname($name) {
-        if(!is_string($name)){
-            throw new \InvalidArgumentException('$name must be a string, instead found' . var_export($name, true));
-        }
-        $this->modelData['surname'] = $name;
-    }
+    public function setSurname($surname) {
+        $this->_setModelProperty('forename', $surname, 'string');
+   }
 
     /**
      * Get the user's surname
@@ -54,9 +46,7 @@ class User extends ModelAbstract {
      * @return string
      */
     public function getSurname(){
-        if(isset($this->modelData['surname'])){
-            return $this->modelData['surname'];
-        }
+        return $this->_getModelProperty('surname');
     }
 
 
