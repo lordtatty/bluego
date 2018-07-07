@@ -30,7 +30,7 @@ class UsersCest
 
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/adduser'), $userData);
+        $I->sendPOST($this->buildCallingUrl('/users/add'), $userData);
         $I->seeResponseCodeIs(500);
         $I->seeResponseEquals(json_encode([
             'errors' => [
@@ -42,7 +42,7 @@ class UsersCest
         ]));
 
         // Ensure User does not exist
-        $I->sendGET($this->buildCallingUrl('/getusers'));
+        $I->sendGET($this->buildCallingUrl('/users/getall'));
         $I->seeResponseCodeIs(200);
         $I->dontSeeResponseContainsJson([
             '0' => $userData
@@ -53,7 +53,7 @@ class UsersCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/adduser'), [
+        $I->sendPOST($this->buildCallingUrl('/users/add'), [
             'forename' => 'Jim',
             'surname' => 'Biddersdale'
         ]);
@@ -62,7 +62,7 @@ class UsersCest
         $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
         $I->seeResponseEquals(json_encode([
             "links" => [
-                "self" => "http://api-core/". $this->instanceName ."/adduser"
+                "self" => "http://api-core/". $this->instanceName ."/users/add"
             ],
             "data" => [
                 [
@@ -85,22 +85,22 @@ class UsersCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/adduser'), [
+        $I->sendPOST($this->buildCallingUrl('/users/add'), [
                 'forename' => 'Alice',
                 'surname' => 'Crompton'
             ]);
 
-        $I->sendPOST($this->buildCallingUrl('/adduser'), [
+        $I->sendPOST($this->buildCallingUrl('/users/add'), [
                 'forename' => 'Jim',
                 'surname' => 'Biddersdale'
             ]);
-        $I->sendGET($this->buildCallingUrl('/getusers'));
+        $I->sendGET($this->buildCallingUrl('/users/getall'));
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
         $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
         $I->seeResponseEquals(json_encode([
             "links" => [
-                "self" => "http://api-core/". $this->instanceName ."/getusers"
+                "self" => "http://api-core/". $this->instanceName ."/users/getall"
             ],
             "data" => [
                 [
