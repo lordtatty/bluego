@@ -86,16 +86,46 @@ class CreateUserCest
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
         $I->sendPOST($this->buildCallingUrl('/adduser'), [
+                'forename' => 'Alice',
+                'surname' => 'Crompton'
+            ]);
+
+        $I->sendPOST($this->buildCallingUrl('/adduser'), [
                 'forename' => 'Jim',
                 'surname' => 'Biddersdale'
             ]);
         $I->sendGET($this->buildCallingUrl('/getusers'));
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
-        $I->seeResponseContainsJson([
-                'forename' => 'Jim',
-                'surname' => 'Biddersdale'
-        ]);
+        $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
+        $I->seeResponseEquals(json_encode([
+            "links" => [
+                "self" => "http://api-core/". $this->instanceName ."/getusers"
+            ],
+            "data" => [
+                [
+                    "type" => "users",
+                    "id" => $id[0],
+                    "attributes" => [
+                        "forename" => "Alice",
+                        "surname" => "Crompton",
+                        "uniqueId" => $id[0]
+                    ],
+                ],
+                [
+                    "type" => "users",
+                    "id" => $id[1],
+                    "attributes" => [
+                        "forename" => "Jim",
+                        "surname" => "Biddersdale",
+                        "uniqueId" => $id[1]
+                    ]
+                ]
+            ],
+            "meta" => [
+                "total" => 2
+            ]
+         ]));
 
     }
 
