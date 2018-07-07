@@ -37,7 +37,7 @@ class User extends ModelAbstract {
      * @param $surname
      */
     public function setSurname($surname) {
-        $this->_setModelProperty('forename', $surname, 'string');
+        $this->_setModelProperty('surname', $surname, 'string');
    }
 
     /**

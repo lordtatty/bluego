@@ -18,9 +18,15 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
-$errorHandler = function ($container) {
+$container['errorHandler'] = function ($container) {
     return function ($request, $response, $exception) use ($container) {
 
+        /** @var Monolog\Logger $logger */
+        $logger = $container->get('logger');
+        /** @var \Exception $exception */
+        $logMessage = $exception->getMessage() . "::" . "File: " . $exception->getFile() . "::" . "Line: " . $exception->getLine();
+        $logger->error($logMessage);
+        $logger->error($exception->getTraceAsString());
 
         // Parse it with the json api library
         $errors = new \Tobscure\JsonApi\ErrorHandler();

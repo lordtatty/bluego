@@ -74,27 +74,32 @@ abstract class ModelAbstract implements BsonPopulatable {
      * @param $key
      * @param $value
      * @param $type
+     * @throws \Exception
      */
     protected function _setModelProperty($key, $value, $type) {
 
+        $exceptionMsg = null;
         switch($type) {
             case 'string':
                 if(!is_string($value)){
-                    throw new \InvalidArgumentException('$name must be a string, instead found: ' . var_export($value, true));
+                    $exceptionMsg = '$name must be a string, instead found: ' . var_export($value, true);
                 }
                 break;
             case 'int':
                 if(!is_int($value)){
-                    throw new \InvalidArgumentException('$name must be an integer, instead found: ' . var_export($value, true));
+                    $exceptionMsg = '$name must be an integer, instead found: ' . var_export($value, true);
                 }
                 break;
             case 'bool':
                 if(!is_bool($value)){
-                    throw new \InvalidArgumentException('$name must be a boolean, instead found: ' . var_export($value, true));
+                    $exceptionMsg = '$name must be a boolean, instead found: ' . var_export($value, true);
                 }
                 break;
             default:
-                throw new \InvalidArgumentException('unknown $type value passed, found:' . var_export($value, true));
+                throw new \Exception('unknown $type value passed, found:' . var_export($value, true));
+        }
+        if($exceptionMsg) {
+            throw new \InvalidArgumentException($exceptionMsg);
         }
 
         $this->modelData[$key] = $value;
