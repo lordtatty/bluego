@@ -8,7 +8,7 @@ use MongoDB\Model\BSONDocument;
 abstract class ModelAbstract implements IModel, BsonPopulatable {
 
     /** @var array $modelData */
-    private $modelData = [];
+    protected $modelData = [];
 
     /**
      * Get an array of the data in this
@@ -93,6 +93,16 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
             case 'bool':
                 if(!is_bool($value)){
                     $exceptionMsg = '$name must be a boolean, instead found: ' . var_export($value, true);
+                }
+                break;
+            case 'array':
+                if(!is_array($value)){
+                    $exceptionMsg = '$name must be an array, instead found: ' . var_export($value, true);
+                }
+                break;
+            case 'iModel':
+                if(!$value instanceof IModel){
+                    $exceptionMsg = '$name must be an instance of IModel, instead found: ' . var_export(get_class($value), true);
                 }
                 break;
             default:

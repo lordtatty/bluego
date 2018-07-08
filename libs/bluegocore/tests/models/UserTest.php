@@ -1,14 +1,14 @@
 <?php
-namespace Tests;
+namespace Tests\Models;
 
 use BlueGoCore\Models\User;
 
-class UserTest extends TestBase {
+class UserTest extends ModelBase {
 
     /** @var \BlueGoCore\Models\User */
     protected $sut;
 
-    function _getModel()
+    function getSutClass()
     {
         return new User();
     }

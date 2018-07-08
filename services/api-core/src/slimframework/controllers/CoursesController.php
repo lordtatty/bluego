@@ -25,7 +25,7 @@ class CoursesController extends ControllerAbstract {
      * @return Response
      */
     protected function getCourses(Request $request, Response $response, array $args) {
-        $allUsers = $this->getBlueGoCoreDb()->getAllData(new Course());
+        $allUsers = $this->getStorageManager()->getAllData(new Course());
 
         return $this->buildJsonAPIResponse(200, $allUsers);
     }
@@ -45,8 +45,9 @@ class CoursesController extends ControllerAbstract {
         $course->setTitle($request->getParam('title'));
         $course->setCourseCode($request->getParam('course_code'));
 
-        $this->getBlueGoCoreDb()->save($course);
-
+        $this->getStorageManager()
+            ->addModel($course)
+            ->save();
         return $this->buildJsonAPIResponse(200, [$course]);
 
     }

@@ -1,9 +1,9 @@
 <?php
-namespace Tests;
+namespace Tests\Models;
 
 use BlueGoCore\Models\Course;
 
-class CourseTest extends TestBase {
+class CourseTest extends ModelBase {
 
     /** @var \BlueGoCore\Models\Course */
     protected $sut;
@@ -17,7 +17,7 @@ class CourseTest extends TestBase {
         ];
     }
 
-    function _getModel()
+    function getSutClass()
     {
         return new Course();
     }

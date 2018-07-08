@@ -4,7 +4,7 @@ namespace BlueGoCore\Storage\Types;
 
 use BlueGoCore\Models\IModel;
 
-class StorageTypeMongo extends StorageTypeAbstract{
+class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorageType{
 
     protected $client;
     protected $endpoint;

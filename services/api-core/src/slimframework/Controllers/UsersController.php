@@ -23,7 +23,7 @@ class UsersController extends ControllerAbstract {
      * @return Response
      */
     protected function getUsers(Request $request, Response $response, array $args) {
-        $allUsers = $this->getBlueGoCoreDb()->getAllData(new User());
+        $allUsers = $this->getStorageManager()->getAllData(new User());
 
         return $this->buildJsonAPIResponse(200, $allUsers);
     }
@@ -43,9 +43,13 @@ class UsersController extends ControllerAbstract {
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
 
-        $this->getBlueGoCoreDb()->save($user);
+        $this->getStorageManager()
+            ->addModel($user)
+            ->save();
 
         return $this->buildJsonAPIResponse(200, [$user]);
+
+
 
     }
 

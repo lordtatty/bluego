@@ -1,6 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\Storage\StorageManager;
 use BlueGoCore\Storage\Types\StorageTypeMongo;
 use Interop\Container\ContainerInterface;
 use Tobscure\JsonApi\Document;
@@ -73,10 +74,14 @@ abstract class ControllerAbstract {
      * configured in the _call magic
      * method
      *
-     * @return \BlueGoCore\Storage\Types\StorageTypeAbstract
+     * @return \BlueGoCore\Storage\StorageManager
      */
-    protected function getBlueGoCoreDb(){
-        return new StorageTypeMongo('mongodb://mongodb:27017', $this->instanceName);
+    protected function getStorageManager(){
+        $storageManager = new StorageManager();
+        $storageManager->addPersistedStorage(
+            new StorageTypeMongo('mongodb://mongodb:27017', $this->instanceName)
+        );
+        return $storageManager;
     }
 
     abstract protected function _getJsonApiSerialiser();
