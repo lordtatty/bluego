@@ -5,7 +5,7 @@ namespace BlueGoCore\Models;
 
 use MongoDB\Model\BSONDocument;
 
-abstract class ModelAbstract implements BsonPopulatable {
+abstract class ModelAbstract implements IModel, BsonPopulatable {
 
     /** @var array $modelData */
     private $modelData = [];

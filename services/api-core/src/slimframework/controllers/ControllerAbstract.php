@@ -1,9 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
-use BlueGoCore\BlueGoCore;
-use BlueGoCore\Storage\StorageConfig;
-use BlueGoCore\Storage\StorageFactory;
+use BlueGoCore\Storage\Types\StorageTypeMongo;
 use Interop\Container\ContainerInterface;
 use Tobscure\JsonApi\Document;
 use Tobscure\JsonApi\Collection;
@@ -20,8 +18,8 @@ abstract class ControllerAbstract {
     protected $response;
     /** @var \Monolog\Logger */
     protected $logger;
-    /** @var BlueGoCore */
-    protected $blueGoCore;
+    /** @var string */
+    protected $instanceName;
 
     /**
      * Constructor
@@ -58,18 +56,10 @@ abstract class ControllerAbstract {
     public function __call($name, $args) {
         $this->request = $args[0];
         $this->response = $args[1];
-        $instance = $args[2]['instance'];
+        $this->instanceName = $args[2]['instance'];
 
         $path = $this->request->getUri()->getPath();
         $this->logger->info("BlueGo-API: '$path' route");
-
-        $dbConfig = new StorageConfig();
-        $dbConfig->setEndpoint('mongodb://mongodb:27017');
-        $dbConfig->setDatabaseName($instance);
-
-        $this->blueGoCore = new BlueGoCore(
-            new StorageFactory($dbConfig)
-        );
 
         return call_user_func_array(array($this, $name), $args);
     }
@@ -83,10 +73,10 @@ abstract class ControllerAbstract {
      * configured in the _call magic
      * method
      *
-     * @return BlueGoCore
+     * @return \BlueGoCore\Storage\Types\StorageTypeAbstract
      */
-    protected function getBlueGoCore(){
-        return $this->blueGoCore;
+    protected function getBlueGoCoreDb(){
+        return new StorageTypeMongo('mongodb://mongodb:27017', $this->instanceName);
     }
 
     abstract protected function _getJsonApiSerialiser();

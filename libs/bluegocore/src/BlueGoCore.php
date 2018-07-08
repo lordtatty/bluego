@@ -2,34 +2,18 @@
 
 namespace BlueGoCore;
 
-use BlueGoCore\Storage\StorageFactory;
-use BlueGoCore\Readers\ReadersFactory;
-use BlueGoCore\Writers\WritersFactory;
+use BlueGoCore\Storage\Types\StorageTypeAbstract;
 
 class BlueGoCore {
 
-    protected $databaseFactory;
+    protected $storageType;
 
-    public function __construct(StorageFactory $databaseFactory){
-        $this->databaseFactory = $databaseFactory;
+    public function __construct(StorageTypeAbstract $storageType){
+        $this->storageType = $storageType;
     }
 
-    /**
-     * @return \BlueGoCore\Readers\ReadersFactory
-     */
-    public function getReaders() {
-        return new ReadersFactory($this->getStorageFactory());
-    }
-
-    /**
-     * @return \BlueGoCore\Writers\WritersFactory
-     */
-    public function getWriters() {
-        return new WritersFactory($this->getStorageFactory());
-    }
-
-    protected function getStorageFactory(){
-        return $this->databaseFactory;
+    protected function getStorageType(){
+        return $this->storageType;
     }
 
 }

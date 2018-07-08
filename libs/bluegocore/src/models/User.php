@@ -50,4 +50,8 @@ class User extends ModelAbstract {
     }
 
 
+    public function getPodName()
+    {
+        return 'users';
+    }
 }

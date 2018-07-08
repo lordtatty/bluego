@@ -1,6 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -22,10 +23,7 @@ class UsersController extends ControllerAbstract {
      * @return Response
      */
     protected function getUsers(Request $request, Response $response, array $args) {
-        $allUsers = $this->getBlueGoCore($request)
-            ->getReaders()
-            ->getUsersReader()
-            ->getAllUsers();
+        $allUsers = $this->getBlueGoCoreDb()->getAllData(new User());
 
         return $this->buildJsonAPIResponse(200, $allUsers);
     }
@@ -45,10 +43,7 @@ class UsersController extends ControllerAbstract {
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
 
-        $writer = $this->getBlueGoCore($request)
-            ->getWriters()
-            ->getUsersWriter();
-        $writer->saveToDb($user);
+        $this->getBlueGoCoreDb()->save($user);
 
         return $this->buildJsonAPIResponse(200, [$user]);
 

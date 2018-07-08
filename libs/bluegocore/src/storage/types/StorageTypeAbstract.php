@@ -2,16 +2,11 @@
 
 namespace BlueGoCore\Storage\Types;
 
-use BlueGoCore\Storage\StorageConfig;
+use BlueGoCore\Models\IModel;
 
 abstract class StorageTypeAbstract {
 
-    protected $dbConfig;
-    protected $collection;
-
-    public function __construct(StorageConfig $dbConfig, $collection){
-        $this->dbConfig = $dbConfig;
-        $this->collection = $collection;
-    }
+    abstract function save(IModel $model);
+    abstract function getAllData(IModel $model);
 
 } 

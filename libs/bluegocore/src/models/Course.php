@@ -13,6 +13,11 @@ namespace BlueGoCore\Models;
  */
 class Course extends ModelAbstract {
 
+    public function getPodName()
+    {
+        return 'courses';
+    }
+
     /**
      * Set the Course Title
      *

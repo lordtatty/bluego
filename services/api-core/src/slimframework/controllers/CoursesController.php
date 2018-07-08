@@ -1,6 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\Models\Course;
 use JsonApi\Tobscure\Serialisers\CoursesSerialiser;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -24,10 +25,7 @@ class CoursesController extends ControllerAbstract {
      * @return Response
      */
     protected function getCourses(Request $request, Response $response, array $args) {
-        $allUsers = $this->getBlueGoCore($request)
-            ->getReaders()
-            ->getCoursesReader()
-            ->getAllUsers();
+        $allUsers = $this->getBlueGoCoreDb()->getAllData(new Course());
 
         return $this->buildJsonAPIResponse(200, $allUsers);
     }
@@ -47,10 +45,7 @@ class CoursesController extends ControllerAbstract {
         $course->setTitle($request->getParam('title'));
         $course->setCourseCode($request->getParam('course_code'));
 
-        $writer = $this->getBlueGoCore($request)
-            ->getWriters()
-            ->getCoursesWriter();
-        $writer->saveToDb($course);
+        $this->getBlueGoCoreDb()->save($course);
 
         return $this->buildJsonAPIResponse(200, [$course]);
 
