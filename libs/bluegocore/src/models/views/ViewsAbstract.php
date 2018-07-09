@@ -12,7 +12,7 @@ namespace BlueGoCore\Models\Views;
 use BlueGoCore\Models\IModel;
 use BlueGoCore\Models\ModelAbstract;
 
-abstract class ViewsAbstract extends ModelAbstract {
+abstract class ViewsAbstract extends ModelAbstract implements IModelView {
 
     protected function setUniqueId($uniqueId){
         $this->modelData['uniqueId'] = $uniqueId;
@@ -46,6 +46,24 @@ abstract class ViewsAbstract extends ModelAbstract {
         }
         unset($responseArray['_id']);
         return $responseArray;
+    }
+
+    /**
+     * @yeild IModel
+     */
+    public function iterateAllModels(){
+        foreach($this->modelData as $modelArr){
+            if(is_array($modelArr)) {
+                foreach ($modelArr as $model) {
+                    if ($model instanceof IModel) {
+                        yield $model;
+                    }
+                }
+            }
+            elseif ($modelArr instanceof IModel) {
+                yield $modelArr;
+            }
+        }
     }
 
 }

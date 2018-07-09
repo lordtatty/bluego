@@ -1,7 +1,10 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\Actions\EnrollUserToCourse;
+use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
+use BlueGoCore\Models\Views\UserCourseView;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -46,6 +49,19 @@ class UsersController extends ControllerAbstract {
         $this->getStorageManager()
             ->addModel($user)
             ->save();
+
+        ////// Testing - remove ////
+        $allCourses = $this->getStorageManager()->getAllData(new Course());
+
+        $action = new EnrollUserToCourse($this->getStorageManager());
+        $action->setUser($user);
+        foreach ($allCourses as $c) {
+            $action->setCourse($c);
+            $action->perform();
+        }
+
+        $this->getStorageManager()->save();
+        ////////////////////////////
 
         return $this->buildJsonAPIResponse(200, [$user]);
 

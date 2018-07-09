@@ -3,6 +3,8 @@
 namespace BlueGoCore\Storage\Types;
 
 use BlueGoCore\Models\IModel;
+use BlueGoCore\Models\Views\IModelView;
+use BlueGoCore\Storage\Mappings\ViewUpdateMapping;
 
 class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorageType{
 
@@ -24,6 +26,20 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
 
     public function save(IModel $model){
         $this->insertData($model->getArray(), $model->getPodName());
+        $this->updateViews($model);
+    }
+
+    protected function updateViews(IModel $model){
+        if($model instanceof IModelView){
+            foreach($model->iterateAllModels() as $viewAttachedModel){
+                $mapping = new ViewUpdateMapping();
+                $mapping->addView($model);
+                $mapping->setModel($viewAttachedModel);
+//                $this->save($mapping);
+                $this->updateMapping($mapping);
+
+            }
+        }
     }
 
     protected function insertData(array $data, $collection){
@@ -35,6 +51,19 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
         if(!$result->isAcknowledged() || $result->getInsertedCount() !== 1){
             throw new \Exception('Data unexpectedly did not insert to db');
         }
+    }
+
+    protected function updateMapping(ViewUpdateMapping $mapping){
+        $collection = $mapping->getPodName();
+        $key = $mapping->getUniqueId();
+        $data = $mapping->getArray()['views'];
+        $db = $this->getClient()->selectDatabase($this->databaseName);
+        $collection = $db->selectCollection($collection);
+        $collection->updateOne(['uniqueId' => $key], [
+                '$set' => ['unqiueId' => $key],
+                '$addToSet' => ['views' => ['$each' => array_keys($data)]]
+            ],
+            ['upsert' => true]);
     }
 
     public function getAllData(IModel $model) {

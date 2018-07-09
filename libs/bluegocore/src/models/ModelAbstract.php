@@ -115,6 +115,14 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
         $this->modelData[$key] = $value;
     }
 
+    protected function _addToModelPropetyArray($modelKey, $valueKey, $value, $type) {
+        if(!is_array($this->modelData[$modelKey])){
+            $this->modelData[$modelKey] = [];
+        }
+
+        $this->modelData[$modelKey][$valueKey] = $value;
+    }
+
     /**
      * Get a model property
      *

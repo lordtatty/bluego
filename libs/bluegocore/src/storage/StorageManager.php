@@ -18,8 +18,7 @@ class StorageManager {
     }
 
     public function addModel(IModel $model){
-        $uniqueId = $model->getUniqueId();
-        $this->models[$uniqueId] = $model;
+        $this->models[] = $model;
         return $this;
     }
 
@@ -32,6 +31,7 @@ class StorageManager {
                 $persistedStorage->save($model);
             }
         }
+        $this->models = [];
     }
 
     public function getAllData(IModel $model){

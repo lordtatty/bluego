@@ -21,6 +21,8 @@ abstract class ControllerAbstract {
     protected $logger;
     /** @var string */
     protected $instanceName;
+    /** @var StorageManager $storageManager */
+    protected $storageManager;
 
     /**
      * Constructor
@@ -77,11 +79,13 @@ abstract class ControllerAbstract {
      * @return \BlueGoCore\Storage\StorageManager
      */
     protected function getStorageManager(){
-        $storageManager = new StorageManager();
-        $storageManager->addPersistedStorage(
-            new StorageTypeMongo('mongodb://mongodb:27017', $this->instanceName)
-        );
-        return $storageManager;
+        if(!isset($this->storageManager)) {
+            $this->storageManager = new StorageManager();
+            $this->storageManager->addPersistedStorage(
+                new StorageTypeMongo('mongodb://mongodb:27017', $this->instanceName)
+            );
+        }
+        return $this->storageManager;
     }
 
     abstract protected function _getJsonApiSerialiser();
