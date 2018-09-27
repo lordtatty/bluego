@@ -11,7 +11,7 @@ namespace BlueGoCore\Models;
  *
  * @package BlueGoCore\Models
  */
-class Course extends ModelAbstract {
+class Course extends ModelAbstract implements IModelConcrete {
 
     public function getPodName()
     {

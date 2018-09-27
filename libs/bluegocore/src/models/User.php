@@ -11,7 +11,7 @@ namespace BlueGoCore\Models;
  *
  * @package BlueGoCore\Models
  */
-class User extends ModelAbstract {
+class User extends ModelAbstract implements IModelConcrete {
 
     /**
      * Set the User's Forename

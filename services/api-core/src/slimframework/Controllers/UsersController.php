@@ -2,10 +2,8 @@
 namespace SlimFramework\Controllers;
 
 use BlueGoCore\Actions\ActionsFactory;
-use BlueGoCore\Actions\EnrollUserToCourse;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
-use BlueGoCore\Models\Views\UserCourseView;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
