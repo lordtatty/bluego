@@ -25,8 +25,13 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
     }
 
     public function save(IModel $model){
-        $this->insertData($model->getArray(), $model->getPodName());
+        $this->updateData($model->getArray(), $model->getPodName());
         $this->updateViews($model);
+    }
+
+    protected function getMappingTable(IModel $model){
+        $mapping = new ViewUpdateMapping();
+        return $this->getDataByUniqueId($model->getPodName() . ':' . $model->getUniqueId(), $mapping);
     }
 
     protected function updateViews(IModel $model){
@@ -35,22 +40,22 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
                 $mapping = new ViewUpdateMapping();
                 $mapping->addView($model);
                 $mapping->setModel($viewAttachedModel);
-//                $this->save($mapping);
                 $this->updateMapping($mapping);
-
             }
         }
     }
 
-    protected function insertData(array $data, $collection){
+    protected function updateData(array $data, $collection){
         $db = $this->getClient()->selectDatabase($this->databaseName);
         $collection = $db->selectCollection($collection);
-        $result = $collection->insertOne($data);
+        $result = $collection->updateOne(['uniqueId' => $data['uniqueId']], ['$set' => $data], ['upsert' => true]);
+
+
 
         // Ensure this worked before returning a positive response.
-        if(!$result->isAcknowledged() || $result->getInsertedCount() !== 1){
-            throw new \Exception('Data unexpectedly did not insert to db');
-        }
+//        if(!$result->isAcknowledged() || $result->getModifiedCount() !== 1){
+//            throw new \Exception('Data unexpectedly did not insert to db');
+//        }
     }
 
     protected function updateMapping(ViewUpdateMapping $mapping){
@@ -78,6 +83,17 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
             $response[] = $newModel;
         }
         return $response;
+    }
+
+    public function getDataByUniqueId($uniqueId, IModel $model) {
+        $db = $this->getClient()->selectDatabase($this->databaseName);
+        $collection = $db->selectCollection($model->getPodName());
+        $result = $collection->find(['uniqueId' => $uniqueId]);
+        foreach($result as $r){
+            /** @var IModel $model */
+            $model->setByArray((array)$r);
+            return $model;
+        }
     }
 
 } 

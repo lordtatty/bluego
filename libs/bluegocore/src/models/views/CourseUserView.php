@@ -19,7 +19,7 @@ class CourseUserView extends ViewsAbstract {
     /**
      * Set the User's Forename
      *
-     * @param User $user
+     * @param Course $course
      */
     public function setCourse(Course $course) {
         $this->setUniqueId($course->getUniqueId());
@@ -38,7 +38,7 @@ class CourseUserView extends ViewsAbstract {
     /**
      * Set the user's surname
      *
-     * @param Course $course
+     * @param User $user
      */
     public function addUser(User $user) {
         $this->addModelToViewArray('users', $user);

@@ -14,5 +14,6 @@ interface IStorageType {
 
     function save(IModel $model);
     function getAllData(IModel $model);
+    function getDataByUniqueId($uniqueId, IModel $model);
 
 } 

@@ -72,7 +72,7 @@ abstract class ControllerAbstract {
      *
      * Handy helper method for
      * implemented handler methods.
-     * The obejct is instantiated and
+     * The object is instantiated and
      * configured in the _call magic
      * method
      *

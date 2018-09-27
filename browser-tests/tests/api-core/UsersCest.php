@@ -98,34 +98,34 @@ class UsersCest
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
         $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
-        $I->seeResponseEquals(json_encode([
-            "links" => [
+        $I->seeResponseContainsExactJson((object)[
+            "links" => (object)[
                 "self" => "http://api-core/". $this->instanceName ."/users/getall"
             ],
             "data" => [
-                [
+                (object)[
                     "type" => "users",
                     "id" => $id[0],
-                    "attributes" => [
+                    "attributes" => (object)[
                         "forename" => "Alice",
                         "surname" => "Crompton",
                         "uniqueId" => $id[0]
                     ],
                 ],
-                [
+                (object)[
                     "type" => "users",
                     "id" => $id[1],
-                    "attributes" => [
+                    "attributes" => (object)[
                         "forename" => "Jim",
                         "surname" => "Biddersdale",
                         "uniqueId" => $id[1]
                     ]
                 ]
             ],
-            "meta" => [
+            "meta" => (object)[
                 "total" => 2
             ]
-         ]));
+         ]);
 
     }
 

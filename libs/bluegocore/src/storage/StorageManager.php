@@ -46,6 +46,18 @@ class StorageManager {
         return [];
     }
 
+    public function getDataByUniqueId($unqiueId, IModel $model){
+        $this->errorIfNoStorageManager();
+        foreach ($this->persistedStorage as $persistedStorage) {
+            /** @var IPersistableStorageType $persistedStorage */
+            $result = $persistedStorage->getDataByUniqueId($unqiueId, $model);
+            if(!empty($result)){
+                return $result;
+            }
+        }
+        return [];
+    }
+
     protected function errorIfNoStorageManager(){
         if(empty($this->persistedStorage)){
             throw new StorageConfigException('No storage has been added to this storage manager');

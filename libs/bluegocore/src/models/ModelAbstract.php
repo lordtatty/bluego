@@ -19,8 +19,13 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
     public function getArray()
     {
         $this->_ensureUniqueId();
-        $responseArray = $this->modelData;
+        $responseArray = $this->getRawArray();
         unset($responseArray['_id']);
+        return $responseArray;
+    }
+
+    public function getRawArray(){
+        $responseArray = $this->modelData;
         return $responseArray;
     }
 

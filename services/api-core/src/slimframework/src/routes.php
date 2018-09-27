@@ -5,6 +5,7 @@ $app->group('/{instance}', function () {
         $this->group('/users', function (){
                 $className = \SlimFramework\Controllers\UsersController::class;
                 $this->post('/add', $className . ':addUser');
+                $this->post('/update/{uniqueId}', $className . ':updateUser');
                 $this->get('/getall', $className . ':getUsers');
 
             });

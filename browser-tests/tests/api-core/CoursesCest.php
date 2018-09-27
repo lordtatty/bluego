@@ -60,25 +60,25 @@ class CoursesCest
         $I->seeResponseCodeIs(200);
         $this->expectCoursesJsonApiStructure($I);
         $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
-        $I->seeResponseEquals(json_encode([
-            "links" => [
+        $I->seeResponseContainsExactJson((object)[
+            "links" => (object)[
                 "self" => "http://api-core/". $this->instanceName ."/courses/add"
             ],
             "data" => [
-                [
+                (object)[
                     "type" => "courses",
                     "id" => $id,
-                    "attributes" => [
+                    "attributes" => (object)[
                         "title" => "Course 1",
                         "course_code" => "course_1",
                         "uniqueId" => $id
                     ]
                 ]
             ],
-            "meta" => [
+            "meta" => (object)[
                 "total" => 1
             ]
-        ]));
+        ]);
     }
 
     public function get_all_courses_happy_path(\ApiTester $I)
@@ -98,35 +98,34 @@ class CoursesCest
         $I->seeResponseCodeIs(200);
         $this->expectCoursesJsonApiStructure($I);
         $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
-        $I->seeResponseEquals(json_encode([
-            "links" => [
+        $I->seeResponseContainsExactJson((object)[
+            "links" => (object)[
                 "self" => "http://api-core/". $this->instanceName ."/courses/getall"
             ],
             "data" => [
-                [
+                (object)[
                     "type" => "courses",
                     "id" => $id[0],
-                    "attributes" => [
+                    "attributes" => (object)[
                         'title' => 'Course 1',
                         'course_code' => 'course_1',
                         "uniqueId" => $id[0]
                     ],
                 ],
-                [
+                (object)[
                     "type" => "courses",
                     "id" => $id[1],
-                    "attributes" => [
+                    "attributes" => (object)[
                         'title' => 'Course 2',
                         'course_code' => 'course_2',
                         "uniqueId" => $id[1]
                     ]
                 ]
             ],
-            "meta" => [
+            "meta" => (object)[
                 "total" => 2
-            ]
-         ]));
-
+            ],
+         ]);
     }
 
     protected function expectCoursesJsonApiStructure(\ApiTester $I) {
@@ -138,23 +137,5 @@ class CoursesCest
         $I->seeResponseJsonMatchesJsonPath('$.data[*].attributes.course_code');
         $I->seeResponseJsonMatchesJsonPath('$.meta.total');
         $I->dontSeeResponseJsonMatchesJsonPath('$.data[*].attributes._id');
-        $I->seeResponseMatchesJsonType([
-                                           'links' => [
-                                               'self' => 'string'
-                                           ],
-                                           'data' => [
-                                               [
-                                                   'type' => 'string',
-                                                   'id' => 'string',
-                                                   'attributes' => [
-                                                       'title' => 'string',
-                                                       'course_code' => 'string',
-                                                   ]
-                                               ]
-                                           ],
-                                           'meta' => [
-                                               'total' => 'integer'
-                                           ]
-                                       ]);
     }
 }

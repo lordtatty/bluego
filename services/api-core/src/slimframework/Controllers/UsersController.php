@@ -1,6 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\Actions\ActionsFactory;
 use BlueGoCore\Actions\EnrollUserToCourse;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
@@ -53,7 +54,9 @@ class UsersController extends ControllerAbstract {
         ////// Testing - remove ////
         $allCourses = $this->getStorageManager()->getAllData(new Course());
 
-        $action = new EnrollUserToCourse($this->getStorageManager());
+        $actionFactory = new ActionsFactory($this->getStorageManager());
+        $action = $actionFactory->getEnrollUserToCourseAction();
+
         $action->setUser($user);
         foreach ($allCourses as $c) {
             $action->setCourse($c);
@@ -65,7 +68,29 @@ class UsersController extends ControllerAbstract {
 
         return $this->buildJsonAPIResponse(200, [$user]);
 
+    }
 
+
+    /**
+     * Add User route
+     *
+     * Adds a single user
+     *   - name
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    protected function updateUser(Request $request, Response $response, array $args) {
+        $user = new \BlueGoCore\Models\User();
+        $this->getStorageManager()->getDataByUniqueId($args['uniqueId'], $user);
+
+        $user->setForename($request->getParam('forename'));
+        $user->setSurname($request->getParam('surname'));
+
+        $this->getStorageManager()->addModel($user)->save();
+
+        return $this->buildJsonAPIResponse(200, [$user]);
 
     }
 

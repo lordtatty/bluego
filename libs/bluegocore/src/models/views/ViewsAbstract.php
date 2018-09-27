@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tatty
- * Date: 08/07/18
- * Time: 19:23
- */
 
 namespace BlueGoCore\Models\Views;
 
@@ -19,7 +13,7 @@ abstract class ViewsAbstract extends ModelAbstract implements IModelView {
     }
 
     protected function addModelToViewArray($key, IModel $model){
-        if(!is_array($this->modelData[$key])){
+        if(!isset($this->modelData[$key])){
             $this->modelData[$key] = [];
         }
         $this->modelData[$key][$model->getUniqueId()] = $model;
