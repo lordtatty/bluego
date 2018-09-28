@@ -79,19 +79,26 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
         foreach($result as $r){
             /** @var IModel $newModel */
             $newModel = new $model;
-            $newModel->setByArray((array)$r);
+            $newModel->loadFromArray((array)$r);
             $response[] = $newModel;
         }
         return $response;
     }
 
+    /**
+     * Get data for a model by uniqueId
+     *
+     * @param $uniqueId
+     * @param IModel $model
+     * @return IModel
+     */
     public function getDataByUniqueId($uniqueId, IModel $model) {
         $db = $this->getClient()->selectDatabase($this->databaseName);
         $collection = $db->selectCollection($model->getPodName());
         $result = $collection->find(['uniqueId' => $uniqueId]);
         foreach($result as $r){
             /** @var IModel $model */
-            $model->setByArray((array)$r);
+            $model->loadFromArray((array)$r);
             return $model;
         }
     }

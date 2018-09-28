@@ -16,7 +16,7 @@ use \BlueGoCore\Storage\Types\IPersistableStorageType;
 use Tests\TestBase;
 
 
-class StorageManagerTest extends TestBase{
+class StorageManagerTest extends TestBase {
 
     /** @var \BlueGoCore\Storage\StorageManager */
     protected $sut;
@@ -33,22 +33,35 @@ class StorageManagerTest extends TestBase{
 
     /** Test save() method */
 
-    public function test_save_passes_all_models_to_persistent_storage(){
-        $model1 = new User();
-        $model2 = new Course();
+    public function test_save_passes_all_changed_models_to_persistent_storage(){
+        // Set up two models which are reporting themselves as having been changed
+        $model1 = $this->getMockBuilder('BlueGoCore\Models\User')->getMock();
+        $model1->expects($this->any())
+            ->method('isChanged')
+            ->willReturn(true);
+        $model2 = $this->getMockBuilder('BlueGoCore\Models\Course')->getMock();
+        $model2->expects($this->any())
+            ->method('isChanged')
+            ->willReturn(true);
+        // And one which has not been changed
+        $model3 = $this->getMockBuilder('BlueGoCore\Models\Course')->getMock();
+        $model3->expects($this->any())
+            ->method('isChanged')
+            ->willReturn(false);
 
         /** @var IPersistableStorageType|\PHPUnit\Framework\MockObject\MockObject $persistableStorage */
         $persistableStorage = $this->getMockBuilder('\BlueGoCore\Storage\Types\IPersistableStorageType')->getMock();
         $persistableStorage->expects($this->exactly(2))
             ->method('save')
             ->withConsecutive(
-                $model1,
-                $model2
+                $this->identicalTo($model1),
+                $this->identicalTo($model2)
             );
 
         $this->sut->addPersistedStorage($persistableStorage);
         $this->sut->addModel($model1);
         $this->sut->addModel($model2);
+        $this->sut->addModel($model3); // This one should not save
         $this->sut->save();
     }
 

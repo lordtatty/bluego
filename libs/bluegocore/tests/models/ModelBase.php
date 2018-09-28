@@ -24,7 +24,7 @@ abstract class ModelBase extends TestBase {
 
     public function testExistingModelMaintainsExistingUniqueId(){
         $testUserData = $this->_getTestData();
-        $this->sut->setByArray($testUserData);
+        $this->sut->loadFromArray($testUserData);
 
         $uniqueId = $this->sut->getUniqueId();
         $this->assertSame($testUserData['uniqueId'], $uniqueId);

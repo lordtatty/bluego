@@ -24,6 +24,7 @@ class UserCourseView extends ViewsAbstract {
     public function setUser(User $user) {
         $this->setUniqueId($user->getUniqueId());
         $this->_setModelProperty('user', $user, 'iModel');
+        // TODO: Try to load an existing View
     }
 
     /**

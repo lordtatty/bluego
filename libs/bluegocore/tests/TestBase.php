@@ -61,14 +61,6 @@ abstract class TestBase extends TestCase {
         );
     }
 
-    protected function expectStorageManagerAddViews(...$views){
-        $this->expectSetOnMock(
-            $this->getStorageManagerMock(),
-            'addView',
-            ...$views
-        );
-    }
-
     protected function expectSetOnMock(\PHPUnit\Framework\MockObject\MockObject $mockObject, $method, ...$value){
         foreach($value as $k => $v){
             $value[$k] = [$this->identicalTo($v)];

@@ -31,7 +31,7 @@ class CourseTest extends ModelBase {
 
     public function test_title_set_from_array(){
         $this->assertNull($this->sut->getTitle());
-        $this->sut->setByArray($this->_getTestData());
+        $this->sut->loadFromArray($this->_getTestData());
         $this->assertSame("Course 1", $this->sut->getTitle());
     }
 
@@ -44,7 +44,7 @@ class CourseTest extends ModelBase {
 
     public function test_course_code_set_from_array(){
         $this->assertNull($this->sut->getCourseCode());
-        $this->sut->setByArray($this->_getTestData());
+        $this->sut->loadFromArray($this->_getTestData());
         $this->assertSame("course_1", $this->sut->getCourseCode());
     }
 

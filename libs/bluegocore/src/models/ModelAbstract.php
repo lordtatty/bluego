@@ -4,11 +4,24 @@ namespace BlueGoCore\Models;
 
 
 use MongoDB\Model\BSONDocument;
+use PHPUnit\Framework\Exception;
 
 abstract class ModelAbstract implements IModel, BsonPopulatable {
 
     /** @var array $modelData */
     protected $modelData = [];
+
+    /** @var bool $isChanged track if this model has been updated */
+    private $isChanged = false;
+
+    /**
+     * Reports whether this model has been changed;
+     *
+     * @return bool
+     */
+    public function isChanged(){
+        return $this->isChanged;
+    }
 
     /**
      * Get an array of the data in this
@@ -36,17 +49,24 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
      */
     public function setByBson(BSONDocument $bson)
     {
-        $this->setByArray((array)$bson);
+        // TODO: Is this used??
+        // $this->setByArray((array)$bson);
+        throw new Exception('Do we need this?');
     }
 
     /**
      * Populate this object via an array
      *
+     * This should only load data already saved.
+     * It does not get marked as being "changed" and
+     * therefore will not get persisted to the db
+     *
      * @param array $array
      */
-    public function setByArray(array $array)
+    public function loadFromArray(array $array)
     {
         $this->modelData = $array;
+        $this->isChanged = false;
     }
 
     /**
@@ -117,6 +137,7 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
             throw new \InvalidArgumentException($exceptionMsg);
         }
 
+        $this->isChanged = true;
         $this->modelData[$key] = $value;
     }
 
@@ -126,6 +147,7 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
         }
 
         $this->modelData[$modelKey][$valueKey] = $value;
+        $this->isChanged = true;
     }
 
     /**

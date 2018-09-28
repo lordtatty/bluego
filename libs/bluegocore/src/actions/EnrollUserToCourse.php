@@ -62,12 +62,12 @@ class EnrollUserToCourse {
         // Create user-course view
         $this->userCourseView->addCourse($this->course);
         $this->userCourseView->setUser($this->user);
-        $this->storageManager->addView($this->userCourseView);
+        $this->storageManager->addModel($this->userCourseView);
 
         // Create course_user view
         $this->courseUserView->setCourse($this->course);
         $this->courseUserView->addUser($this->user);
-        $this->storageManager->addView($this->courseUserView);
+        $this->storageManager->addModel($this->courseUserView);
     }
 
 

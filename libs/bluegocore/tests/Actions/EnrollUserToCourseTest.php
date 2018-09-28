@@ -41,7 +41,7 @@ class EnrollUserToCourseTest extends TestBase {
         $this->expectSetOnMock($this->getUserCourseViewMock(), 'addCourse', $course);
 
         // Assert views are added to the storage manager
-        $this->expectStorageManagerAddViews(
+        $this->expectStorageManagerAddModels(
             $this->getUserCourseViewMock(),
             $this->getCourseUserViewMock()
         );
