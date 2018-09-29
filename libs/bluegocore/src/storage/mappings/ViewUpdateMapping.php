@@ -29,16 +29,11 @@ class ViewUpdateMapping extends ModelAbstract {
         $this->_addToModelPropetyArray('views', $key, [$model->getPodName(), $model->getUniqueId()], 'array');
     }
 
-    /**
-     * Get the User's Forename
-     *
-     * @return string
-     */
-    public function getMappingKeys(){
-        return $this->_getModelProperty('mapping_keys');
+    public function getViewUniqueIds(){
+        return $this->_getModelProperty('views');
     }
 
     public function setModel(IModel $model){
-        $this->_setModelProperty('uniqueId', $model->getPodName() . ":" . $model->getUniqueId(), 'string');
+        $this->_setModelProperty('uniqueId', $model->getUniqueId(), 'string');
     }
 }

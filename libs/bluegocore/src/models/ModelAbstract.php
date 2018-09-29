@@ -89,7 +89,7 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
     protected function _ensureUniqueId()
     {
         if (!isset($this->modelData['uniqueId'])) {
-            $this->modelData['uniqueId'] = $this->_generateUuid();
+            $this->modelData['uniqueId'] = $this->getPodName() . ':' .$this->_generateUuid();
         }
     }
 

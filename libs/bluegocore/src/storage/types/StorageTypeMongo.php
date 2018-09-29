@@ -31,7 +31,7 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
 
     protected function getMappingTable(IModel $model){
         $mapping = new ViewUpdateMapping();
-        return $this->getDataByUniqueId($model->getPodName() . ':' . $model->getUniqueId(), $mapping);
+        return $this->getDataByUniqueId($model->getUniqueId(), $mapping);
     }
 
     protected function updateViews(IModel $model){
@@ -97,10 +97,20 @@ class StorageTypeMongo extends StorageTypeAbstract implements IPersistableStorag
         $collection = $db->selectCollection($model->getPodName());
         $result = $collection->find(['uniqueId' => $uniqueId]);
         foreach($result as $r){
+            /** @var \MongoDB\Model\BSONDocument $r */
             /** @var IModel $model */
-            $model->loadFromArray((array)$r);
+            $model->loadFromArray($this->recursiveBsonToArray($r));
             return $model;
         }
+    }
+
+    private function recursiveBsonToArray(\MongoDB\Model\BSONDocument $arr){
+        foreach($arr as $key => $value){
+            if($value instanceof \MongoDB\Model\BSONDocument){
+                $arr[$key] = $this->recursiveBsonToArray($value);
+            }
+        }
+        return $arr->getArrayCopy();
     }
 
 } 

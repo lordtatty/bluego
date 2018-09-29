@@ -4,6 +4,7 @@ namespace BlueGoCore\Models\Views;
 
 
 use BlueGoCore\Models\IModel;
+use BlueGoCore\Models\IModelConcrete;
 use BlueGoCore\Models\ModelAbstract;
 
 abstract class ViewsAbstract extends ModelAbstract implements IModelView {
@@ -16,7 +17,7 @@ abstract class ViewsAbstract extends ModelAbstract implements IModelView {
         if(!isset($this->modelData[$key])){
             $this->modelData[$key] = [];
         }
-        $this->modelData[$key][$model->getUniqueId()] = $model;
+        $this->_addToModelPropetyArray($key, $model->getUniqueId(), $model, 'array');
     }
 
     public function getArray(){
@@ -56,6 +57,22 @@ abstract class ViewsAbstract extends ModelAbstract implements IModelView {
             }
             elseif ($modelArr instanceof IModel) {
                 yield $modelArr;
+            }
+        }
+    }
+
+    public function updateInstancesOfModel(IModelConcrete $model){
+        foreach($this->modelData as $key => $data){
+            // If this is an array then it is a bunch of models,
+            // Update if the model exists in there
+            if(is_array($data)){
+                if(isset($this->modelData[$key][$model->getUniqueId()])){
+                    $this->addModelToViewArray($key, $model);
+                }
+                // TODO: Is there a better way than explicityly referencing 'uniqueId' here? Feels fragile.
+                elseif($data['uniqueId'] === $model->getUniqueId()){
+                    $this->_setModelProperty($key, $model, 'iModel');
+                }
             }
         }
     }

@@ -6,8 +6,12 @@ namespace BlueGoCore\Storage;
 use BlueGoCore\Exceptions\StorageConfigException;
 use BlueGoCore\Models\IModel;
 use BlueGoCore\Models\IModelConcrete;
+use BlueGoCore\Models\Views\CourseUserView;
 use BlueGoCore\Models\Views\IModelView;
+use BlueGoCore\Models\Views\UserCourseView;
+use BlueGoCore\Storage\Mappings\ViewUpdateMapping;
 use BlueGoCore\Storage\Types\IPersistableStorageType;
+use PHPUnit\Framework\Exception;
 
 /**
  * The StorageManager will keep track of all models loaded
@@ -71,6 +75,7 @@ class StorageManager {
                 foreach ($this->persistedStorage as $persistedStorage) {
                     /** @var IPersistableStorageType $persistedStorage */
                     $persistedStorage->save($model);
+                    $this->updateViewsForChangedModel($model);
                 }
             }
         }
@@ -84,6 +89,37 @@ class StorageManager {
             }
         }
         $this->concreteModels = [];
+    }
+
+    protected function updateViewsForChangedModel(IModelConcrete $model){
+        /** @var ViewUpdateMapping $mapping */
+        $mapping = $this->getDataByUniqueId($model->getUniqueId(), new ViewUpdateMapping());
+        if(!empty($mapping)){
+            foreach($mapping->getViewUniqueIds() as $uniqueId){
+                $uniqueIdParts = explode(':', $uniqueId, 2);
+                $viewModel = $this->getModelTypeFromModelString($uniqueIdParts[0]);
+                /** @var IModelView $view */
+                $view = $this->getDataByUniqueId($uniqueIdParts[1], $viewModel);
+                $view->updateInstancesOfModel($model);
+            }
+        }
+    }
+
+    /**
+     * @param $modelString
+     * @return IModel
+     */
+    protected function getModelTypeFromModelString($modelString){
+        switch($modelString){
+            case 'view_user_course':
+                return new UserCourseView();
+                break;
+            case 'view_course_users':
+                return new CourseUserView();
+                break;
+            default:
+                throw new Exception('view type not recognised');
+        }
     }
 
     /**
