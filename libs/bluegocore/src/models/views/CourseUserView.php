@@ -17,6 +17,13 @@ use BlueGoCore\Models\User;
 class CourseUserView extends ViewsAbstract {
 
     /**
+     * @param Course $course
+     */
+    public function __construct(Course $course){
+        $this->setCourse($course);
+    }
+
+    /**
      * Set the User's Forename
      *
      * @param Course $course

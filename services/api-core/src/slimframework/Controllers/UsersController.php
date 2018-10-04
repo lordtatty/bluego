@@ -2,6 +2,9 @@
 namespace SlimFramework\Controllers;
 
 use BlueGoCore\Actions\ActionsFactory;
+use BlueGoCore\Actions\EnrollUserToCourse;
+use BlueGoCore\Loaders\Views\CourseUserViewLoader;
+use BlueGoCore\Loaders\Views\UserCourseViewLoader;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
 use Slim\Http\Request;
@@ -52,8 +55,11 @@ class UsersController extends ControllerAbstract {
         ////// Testing - remove ////
         $allCourses = $this->getStorageManager()->getAllData(new Course());
 
-        $actionFactory = new ActionsFactory($this->getStorageManager());
-        $action = $actionFactory->getEnrollUserToCourseAction();
+        $action = new EnrollUserToCourse(
+            $this->getStorageManager(),
+            new UserCourseViewLoader($this->getStorageManager()),
+            new CourseUserViewLoader($this->getStorageManager())
+        );
 
         $action->setUser($user);
         foreach ($allCourses as $c) {

@@ -6,9 +6,8 @@ namespace BlueGoCore\Storage;
 use BlueGoCore\Exceptions\StorageConfigException;
 use BlueGoCore\Models\IModel;
 use BlueGoCore\Models\IModelConcrete;
-use BlueGoCore\Models\Views\CourseUserView;
 use BlueGoCore\Models\Views\IModelView;
-use BlueGoCore\Models\Views\UserCourseView;
+use BlueGoCore\Storage\Mappings\ModelIdToViewLoader;
 use BlueGoCore\Storage\Mappings\ViewUpdateMapping;
 use BlueGoCore\Storage\Types\IPersistableStorageType;
 use PHPUnit\Framework\Exception;
@@ -31,6 +30,13 @@ class StorageManager {
     protected $concreteModels = [];
     /** @var array[IModel] $models */
     protected $viewModels = [];
+    /** @var ModelIdToViewLoader $modelIdToViewLoader */
+    protected $modelIdToViewLoader;
+
+    public function __construct(ModelIdToViewLoader $modelIdToViewLoader){
+        $this->modelIdToViewLoader = $modelIdToViewLoader;
+        $this->modelIdToViewLoader->setStorageManager($this);
+    }
 
     /**
      * Add a persistable storage type from which
@@ -91,34 +97,22 @@ class StorageManager {
         $this->concreteModels = [];
     }
 
+    /**
+     * Discover if any models need updating, and pass it off to be updated
+     *
+     * @param IModelConcrete $model
+     */
     protected function updateViewsForChangedModel(IModelConcrete $model){
+        if($this->modelIdToViewLoader == null){
+            throw new Exception('Model Id To View Loader has not been set');
+        }
         /** @var ViewUpdateMapping $mapping */
         $mapping = $this->getDataByUniqueId($model->getUniqueId(), new ViewUpdateMapping());
         if(!empty($mapping)){
             foreach($mapping->getViewUniqueIds() as $uniqueId){
-                $uniqueIdParts = explode(':', $uniqueId, 2);
-                $viewModel = $this->getModelTypeFromModelString($uniqueIdParts[0]);
-                /** @var IModelView $view */
-                $view = $this->getDataByUniqueId($uniqueIdParts[1], $viewModel);
+                $view = $this->modelIdToViewLoader->getViewFromViewUniqueId($uniqueId);
                 $view->updateInstancesOfModel($model);
             }
-        }
-    }
-
-    /**
-     * @param $modelString
-     * @return IModel
-     */
-    protected function getModelTypeFromModelString($modelString){
-        switch($modelString){
-            case 'view_user_course':
-                return new UserCourseView();
-                break;
-            case 'view_course_users':
-                return new CourseUserView();
-                break;
-            default:
-                throw new Exception('view type not recognised');
         }
     }
 

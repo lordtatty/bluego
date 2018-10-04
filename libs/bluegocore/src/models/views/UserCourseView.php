@@ -17,14 +17,20 @@ use BlueGoCore\Models\User;
 class UserCourseView extends ViewsAbstract {
 
     /**
+     * @param User $user
+     */
+    public function __construct(User $user){
+        $this->setUser($user);
+    }
+
+    /**
      * Set the User's Forename
      *
      * @param User $user
      */
-    public function setUser(User $user) {
+    protected function setUser(User $user) {
         $this->setUniqueId($user->getUniqueId());
         $this->_setModelProperty('user', $user, 'iModel');
-        // TODO: Try to load an existing View
     }
 
     /**

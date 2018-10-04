@@ -2,6 +2,8 @@
 
 namespace BlueGoCore\Actions;
 
+use BlueGoCore\Loaders\Views\CourseUserViewLoader;
+use BlueGoCore\Loaders\Views\UserCourseViewLoader;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
 use BlueGoCore\Models\Views\CourseUserView;
@@ -21,16 +23,14 @@ class EnrollUserToCourse {
 
     /** @var StorageManager $storageManager */
     private $storageManager;
+    /** @var UserCourseViewLoader $userCourseViewLoader */
+    private $userCourseViewLoader;
+    /** @var CourseUserViewLoader $courseUserViewLoader */
+    private $courseUserViewLoader;
     /** @var User $user */
     private $user;
     /** @var Course $courses */
     private $course;
-
-    /** @var UserCourseView  */
-    private $userCourseView;
-    /** @var CourseUserView  */
-    private $courseUserView;
-
 
     /**
      * @param Course $course
@@ -48,26 +48,26 @@ class EnrollUserToCourse {
         $this->user = $user;
     }
 
-    public function __construct(StorageManager $storageManager, UserCourseView $userCourseView, CourseUserView $courseUserView){
+    public function __construct(StorageManager $storageManager, UserCourseViewLoader $userCourseViewLoader, CourseUserViewLoader $courseUserViewLoader){
         $this->storageManager = $storageManager;
-        $this->userCourseView = $userCourseView;
-        $this->courseUserView = $courseUserView;
+        $this->userCourseViewLoader = $userCourseViewLoader;
+        $this->courseUserViewLoader = $courseUserViewLoader;
     }
 
     public function perform(){
         //Ensure the user is not already enrolled on this course
         // TODO: As above
 
-
         // Create user-course view
-        $this->userCourseView->addCourse($this->course);
-        $this->userCourseView->setUser($this->user);
-        $this->storageManager->addModel($this->userCourseView);
+        $userCourseView = $this->userCourseViewLoader->loadFromUser($this->user);
+        $userCourseView->addCourse($this->course);
+        $this->storageManager->addModel($userCourseView);
 
+        $courseUserView = $this->courseUserViewLoader->loadFromCourse($this->course);
         // Create course_user view
-        $this->courseUserView->setCourse($this->course);
-        $this->courseUserView->addUser($this->user);
-        $this->storageManager->addModel($this->courseUserView);
+        $courseUserView->setCourse($this->course);
+        $courseUserView->addUser($this->user);
+        $this->storageManager->addModel($courseUserView);
     }
 
 

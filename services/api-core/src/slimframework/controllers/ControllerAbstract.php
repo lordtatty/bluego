@@ -1,6 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
+use BlueGoCore\Loaders\Views\ViewLoader;
 use BlueGoCore\Storage\StorageManager;
 use BlueGoCore\Storage\Types\StorageTypeMongo;
 use Interop\Container\ContainerInterface;
@@ -80,7 +81,7 @@ abstract class ControllerAbstract {
      */
     protected function getStorageManager(){
         if(!isset($this->storageManager)) {
-            $this->storageManager = new StorageManager();
+            $this->storageManager = new StorageManager(new ViewLoader());
             $this->storageManager->addPersistedStorage(
                 new StorageTypeMongo('mongodb://mongodb:27017', $this->instanceName)
             );
