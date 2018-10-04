@@ -4,9 +4,8 @@ namespace BlueGoCore\Models;
 
 
 use MongoDB\Model\BSONDocument;
-use PHPUnit\Framework\Exception;
 
-abstract class ModelAbstract implements IModel, BsonPopulatable {
+abstract class ModelAbstract implements IModel {
 
     /** @var array $modelData */
     protected $modelData = [];
@@ -40,18 +39,6 @@ abstract class ModelAbstract implements IModel, BsonPopulatable {
     public function getRawArray(){
         $responseArray = $this->modelData;
         return $responseArray;
-    }
-
-    /**
-     * Populate this object via a MongoDb BSON Object
-     *
-     * @param BSONDocument $bson
-     */
-    public function setByBson(BSONDocument $bson)
-    {
-        // TODO: Is this used??
-        // $this->setByArray((array)$bson);
-        throw new Exception('Do we need this?');
     }
 
     /**
