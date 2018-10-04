@@ -5,6 +5,7 @@ use BlueGoCore\Actions\ActionsFactory;
 use BlueGoCore\Actions\EnrollUserToCourse;
 use BlueGoCore\Loaders\Views\CourseUserViewLoader;
 use BlueGoCore\Loaders\Views\UserCourseViewLoader;
+use BlueGoCore\Loaders\Views\ViewLoaderFactory;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
 use Slim\Http\Request;
@@ -56,9 +57,7 @@ class UsersController extends ControllerAbstract {
         $allCourses = $this->getStorageManager()->getAllData(new Course());
 
         $action = new EnrollUserToCourse(
-            $this->getStorageManager(),
-            new UserCourseViewLoader($this->getStorageManager()),
-            new CourseUserViewLoader($this->getStorageManager())
+            new ViewLoaderFactory($this->getStorageManager())
         );
 
         $action->setUser($user);

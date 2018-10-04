@@ -56,4 +56,5 @@ class ViewLoader implements ModelIdToViewLoader{
                 throw new \Exception('View type not recognised');
         }
     }
+
 }
