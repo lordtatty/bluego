@@ -1,10 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
-use BlueGoCore\Actions\ActionsFactory;
 use BlueGoCore\Actions\EnrollUserToCourse;
-use BlueGoCore\Loaders\Views\CourseUserViewLoader;
-use BlueGoCore\Loaders\Views\UserCourseViewLoader;
 use BlueGoCore\Loaders\Views\ViewLoaderFactory;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
