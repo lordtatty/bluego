@@ -13,4 +13,13 @@ class UserLoader extends ModelConcreteLoaderAbstract {
         return $this->getStorageManager()->getAllData(new User());
     }
 
+    /**
+     * @return User
+     */
+    public function createNew(){
+        $user = new User();
+        $this->getStorageManager()->addModel($user);
+        return $user;
+    }
+
 } 

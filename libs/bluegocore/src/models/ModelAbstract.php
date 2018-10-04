@@ -36,6 +36,9 @@ abstract class ModelAbstract implements IModel {
         return $responseArray;
     }
 
+    /**
+     * @return array
+     */
     public function getRawArray(){
         $responseArray = $this->modelData;
         return $responseArray;
