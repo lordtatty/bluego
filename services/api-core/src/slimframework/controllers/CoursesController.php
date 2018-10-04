@@ -1,7 +1,7 @@
 <?php
 namespace SlimFramework\Controllers;
 
-use BlueGoCore\Models\Course;
+use BlueGoCore\Loaders\CourseLoader;
 use JsonApi\Tobscure\Serialisers\CoursesSerialiser;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -25,9 +25,10 @@ class CoursesController extends ControllerAbstract {
      * @return Response
      */
     protected function getCourses(Request $request, Response $response, array $args) {
-        $allUsers = $this->getStorageManager()->getAllData(new Course());
+        $courseLoader = new CourseLoader($this->getStorageManager());
+        $allCourses = $courseLoader->getAll();
 
-        return $this->buildJsonAPIResponse(200, $allUsers);
+        return $this->buildJsonAPIResponse(200, $allCourses);
     }
 
     /**
