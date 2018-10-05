@@ -9,21 +9,18 @@ class CoursesCest
             $this->instanceName =  uniqid('BlueGoTest_');
         } while(isset($this->usedInstanceNames[$this->instanceName]));
         $this->usedInstanceNames[$this->instanceName] = true;
+        $I->setApiInstance($this->instanceName);
     }
 
     public function _after(\ApiTester $I)
     {
     }
 
-    protected function buildCallingUrl($url){
-        return '/' . $this->instanceName . $url;
-    }
-
     public function add_course_happy_path(\ApiTester $I)
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/courses/add'), [
+        $I->addCourse([
             'title' => 'Course 1',
             'course_code' => 'course_1'
         ]);
@@ -54,16 +51,16 @@ class CoursesCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/courses/add'), [
+        $I->addCourse([
                 'title' => 'Course 1',
                 'course_code' => 'course_1'
             ]);
 
-        $I->sendPOST($this->buildCallingUrl('/courses/add'), [
+        $I->addCourse([
                 'title' => 'Course 2',
                 'course_code' => 'course_2'
             ]);
-        $I->sendGET($this->buildCallingUrl('/courses/get/all'));
+        $I->getCourseAll();
         $I->seeResponseCodeIs(200);
         $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
         $I->seeResponseContainsExactJson((object)[

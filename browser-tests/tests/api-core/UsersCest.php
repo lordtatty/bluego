@@ -9,14 +9,11 @@ class UsersCest
             $this->instanceName =  uniqid('BlueGoTest_');
         } while(isset($this->usedInstanceNames[$this->instanceName]));
         $this->usedInstanceNames[$this->instanceName] = true;
+        $I->setApiInstance($this->instanceName);
     }
 
     public function _after(\ApiTester $I)
     {
-    }
-
-    protected function buildCallingUrl($url){
-        return '/' . $this->instanceName . $url;
     }
 
     /**
@@ -30,7 +27,7 @@ class UsersCest
 
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/users/add'), $userData);
+        $I->addNewUser($userData);
         $I->seeResponseCodeIs(500);
         $I->seeResponseEquals(json_encode([
             'errors' => [
@@ -42,7 +39,7 @@ class UsersCest
         ]));
 
         // Ensure User does not exist
-        $I->sendGET($this->buildCallingUrl('/users/get/all'));
+        $I->getUserAll();
         $I->seeResponseCodeIs(200);
         $I->dontSeeResponseContainsJson([
             '0' => $userData
@@ -53,10 +50,14 @@ class UsersCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/users/add'), [
+
+        // Add a new user
+        $I->addNewUser([
             'forename' => 'Jim',
             'surname' => 'Biddersdale'
         ]);
+
+        // We are expecting this response
         $I->seeResponseCodeIs(200);
         $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
         $I->seeResponseContainsExactJson((object)[
@@ -84,16 +85,18 @@ class UsersCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/users/add'), [
+        // Add new users
+        $I->addNewUser([
                 'forename' => 'Alice',
                 'surname' => 'Crompton'
             ]);
-
-        $I->sendPOST($this->buildCallingUrl('/users/add'), [
+        $I->addNewUser([
                 'forename' => 'Jim',
                 'surname' => 'Biddersdale'
             ]);
-        $I->sendGET($this->buildCallingUrl('/users/get/all'));
+        // Get All usrs
+        $I->getUserAll();
+        // We are expecting this response
         $I->seeResponseCodeIs(200);
         $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
         $I->seeResponseContainsExactJson((object)[
@@ -131,28 +134,28 @@ class UsersCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/users/add'), [
+        $I->addNewUser([
                 'forename' => 'Alice',
                 'surname' => 'Crompton'
             ]);
 
         $I->seeResponseCodeIs(200);
-        $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
+        $id = $I->grabDataFromResponseByJsonPath('$.data[*].id')[0];
 
-        $I->sendGET($this->buildCallingUrl('/users/get/by/id/'.$id[0]));
+        $I->getUserById($id);
 
         $I->seeResponseContainsExactJson((object)[
             "links" => (object)[
-                "self" => "http://api-core/". $this->instanceName ."/users/get/by/id/$id[0]"
+                "self" => "http://api-core/". $this->instanceName ."/users/get/by/id/$id"
             ],
             "data" => [
                 (object)[
                     "type" => "users",
-                    "id" => $id[0],
+                    "id" => $id,
                     "attributes" => (object)[
                         "forename" => "Alice",
                         "surname" => "Crompton",
-                        "uniqueId" => $id[0]
+                        "uniqueId" => $id
                     ],
                 ]
             ],
@@ -165,10 +168,8 @@ class UsersCest
     public function getSingleUser_not_found(\ApiTester $I)
     {
         $userId = 'users:d9187477-6918-4689-ad36-cbecaccf5236';
-
-        $I->sendGET($this->buildCallingUrl('/users/get/by/id/'.$userId));
+        $I->getUserById($userId);
         $I->seeResponseCodeIs(404);
-
         $I->seeResponseContainsExactJson((object)[
             "links" => (object)[
                 "self" => "http://api-core/". $this->instanceName ."/users/get/by/id/$userId"
@@ -185,19 +186,22 @@ class UsersCest
     {
         $I->amHttpAuthenticated('service_user', '123456');
         $I->haveHttpHeader('Content-Type', 'application/json');
-        $I->sendPOST($this->buildCallingUrl('/users/add'), [
+
+        // Add an initial user
+        $I->addNewUser([
                 'forename' => 'Jim',
                 'surname' => 'Biddersdale'
             ]);
         $I->seeResponseCodeIs(200);
-        $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
 
-        $I->sendPOST($this->buildCallingUrl('/users/update/'.$id), [
+        // Now update the user
+        $id = $I->grabDataFromResponseByJsonPath('$.data[0].id')[0];
+        $I->updateUser($id, [
                 'forename' => 'Tom',
                 'surname' => 'Trombone'
             ]);
+        // We should ee this response
         $I->seeResponseCodeIs(200);
-
         $I->seeResponseContainsExactJson((object)[
               "links" => (object)[
                   "self" => "http://api-core/". $this->instanceName ."/users/update/$id"
@@ -223,12 +227,14 @@ class UsersCest
     {
         $userId = 'users:d9187477-6918-4689-ad36-cbecaccf5236';
 
-        $I->sendPOST($this->buildCallingUrl('/users/update/'.$userId), [
+        // Try to update a user that does not exist
+        $I->updateUser($userId, [
                 'forename' => 'Tom',
                 'surname' => 'Trombone'
             ]);
-        $I->seeResponseCodeIs(404);
 
+        // Ensure the response looks like this
+        $I->seeResponseCodeIs(404);
         $I->seeResponseContainsExactJson((object)[
                 "links" => (object)[
                     "self" => "http://api-core/". $this->instanceName ."/users/update/$userId"
