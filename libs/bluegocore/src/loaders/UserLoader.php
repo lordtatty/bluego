@@ -14,6 +14,14 @@ class UserLoader extends ModelConcreteLoaderAbstract {
     }
 
     /**
+     * @param $id
+     * @return \BlueGoCore\Models\User|null
+     */
+    public function getByUniqueId($id){
+        return $this->getStorageManager()->getDataByUniqueId($id, $this->getModel());
+    }
+
+    /**
      * @return User
      */
     public function createNew(){

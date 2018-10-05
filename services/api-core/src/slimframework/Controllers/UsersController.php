@@ -25,11 +25,31 @@ class UsersController extends ControllerAbstract {
      * @param array $args
      * @return Response
      */
-    protected function getUsers(Request $request, Response $response, array $args) {
+    protected function getAll(Request $request, Response $response, array $args) {
         $userLoader = new UserLoader($this->getStorageManager());
         $allUsers = $userLoader->getAll();
 
         return $this->success($allUsers);
+    }
+
+    /**
+     * Get a single user
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    protected function getById(Request $request, Response $response, array $args) {
+        $userLoader = new UserLoader($this->getStorageManager());
+        $user = $userLoader->getByUniqueId($args['uniqueId']);
+
+        if(!is_null($user)) {
+            return $this->success([$user]);
+        }
+        else{
+            return $this->notFound();
+        }
     }
 
     /**
@@ -80,14 +100,16 @@ class UsersController extends ControllerAbstract {
      * @return Response
      */
     protected function updateUser(Request $request, Response $response, array $args) {
-        $user = new \BlueGoCore\Models\User();
-        $this->getStorageManager()->getDataByUniqueId($args['uniqueId'], $user);
+        $userLoader = new UserLoader($this->getStorageManager());
+        $user = $userLoader->getByUniqueId($args['uniqueId']);
+
+        if($user === null){
+            return $this->notFound();
+        }
 
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
-
-        $this->getStorageManager()->addModel($user);
-
+        
         return $this->success([$user]);
 
     }

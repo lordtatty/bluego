@@ -7,13 +7,21 @@ $app->group('/{instance}', function () {
                 $this->post('/add', $className . ':addUser');
                 $this->post('/update/{uniqueId}', $className . ':updateUser');
                 $this->group('/get', function () use ($className) {
-                        $this->get('/all', $className . ':getUsers');
+                        $this->get('/all', $className . ':getAll');
+                        $this->group('/by', function () use ($className) {
+                                $this->get('/id/{uniqueId}', $className . ':getById');
+                            });
                     });
-
             });
         $this->group('/courses', function () {
                 $className = \SlimFramework\Controllers\CoursesController::class;
                 $this->post('/add', $className . ':addCourse');
-                $this->get('/getall', $className . ':getCourses');
+                $this->group('/get', function () use ($className) {
+                        $this->get('/all', $className . ':getAll');
+                        $this->group('/by', function () use ($className) {
+//                                $this->get('/id/{uniqueId}', $className . ':getById');
+//                                $this->get('/enrolleduser/{userId}', $className . ':getByEnrolledUser');
+                            });
+                    });
             });
     });

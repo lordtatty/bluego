@@ -24,7 +24,7 @@ class CoursesController extends ControllerAbstract {
      * @param array $args
      * @return Response
      */
-    protected function getCourses(Request $request, Response $response, array $args) {
+    protected function getAll(Request $request, Response $response, array $args) {
         $courseLoader = new CourseLoader($this->getStorageManager());
         $allCourses = $courseLoader->getAll();
 

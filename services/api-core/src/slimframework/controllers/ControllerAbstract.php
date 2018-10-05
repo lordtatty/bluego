@@ -137,7 +137,6 @@ abstract class ControllerAbstract {
             ->withStatus($statusCode);
     }
 
-
     /**
      * @param $response
      * @return Response
@@ -145,6 +144,13 @@ abstract class ControllerAbstract {
     protected function success($response){
         $this->getStorageManager()->save();
         return $this->buildJsonAPIResponse(200, $response);
+    }
+    /**
+     * @return Response
+     */
+    protected function notFound(){
+        $this->getStorageManager()->save();
+        return $this->buildJsonAPIResponse(404, []);
     }
 
 } 
