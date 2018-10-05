@@ -29,7 +29,7 @@ class UsersController extends ControllerAbstract {
         $userLoader = new UserLoader($this->getStorageManager());
         $allUsers = $userLoader->getAll();
 
-        return $this->buildJsonAPIResponse(200, $allUsers);
+        return $this->success($allUsers);
     }
 
     /**
@@ -64,9 +64,7 @@ class UsersController extends ControllerAbstract {
 
         ////////////////////////////
 
-        $this->getStorageManager()->save();
-
-        return $this->buildJsonAPIResponse(200, [$user]);
+        return $this->success([$user]);
 
     }
 
@@ -88,9 +86,9 @@ class UsersController extends ControllerAbstract {
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
 
-        $this->getStorageManager()->addModel($user)->save();
+        $this->getStorageManager()->addModel($user);
 
-        return $this->buildJsonAPIResponse(200, [$user]);
+        return $this->success([$user]);
 
     }
 
