@@ -11,10 +11,10 @@ namespace BlueGoCore\Loaders\Views;
 
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
-use BlueGoCore\Storage\Mappings\ModelIdToViewLoader;
+use BlueGoCore\Storage\Mappings\IModelIdToViewLoader;
 use BlueGoCore\Storage\StorageManager;
 
-class ViewLoader implements ModelIdToViewLoader{
+class ViewLoader implements IModelIdToViewLoader{
 
     /** \BlueGoCore\Storage\StorageManager $storageManager */
     protected $storageManager;

@@ -11,7 +11,7 @@ namespace BlueGoCore\Storage\Mappings;
 
 use BlueGoCore\Storage\StorageManager;
 
-interface ModelIdToViewLoader {
+interface IModelIdToViewLoader {
 
     public function setStorageManager(StorageManager $storageManager);
 

@@ -7,7 +7,7 @@ use BlueGoCore\Exceptions\StorageConfigException;
 use BlueGoCore\Models\IModel;
 use BlueGoCore\Models\IModelConcrete;
 use BlueGoCore\Models\Views\IModelView;
-use BlueGoCore\Storage\Mappings\ModelIdToViewLoader;
+use BlueGoCore\Storage\Mappings\IModelIdToViewLoader;
 use BlueGoCore\Storage\Mappings\ViewUpdateMapping;
 use BlueGoCore\Storage\Types\IPersistableStorageType;
 use PHPUnit\Framework\Exception;
@@ -30,10 +30,10 @@ class StorageManager {
     protected $concreteModels = [];
     /** @var array[IModel] $models */
     protected $viewModels = [];
-    /** @var ModelIdToViewLoader $modelIdToViewLoader */
+    /** @var IModelIdToViewLoader $modelIdToViewLoader */
     protected $modelIdToViewLoader;
 
-    public function __construct(ModelIdToViewLoader $modelIdToViewLoader){
+    public function __construct(IModelIdToViewLoader $modelIdToViewLoader){
         $this->modelIdToViewLoader = $modelIdToViewLoader;
         $this->modelIdToViewLoader->setStorageManager($this);
     }
