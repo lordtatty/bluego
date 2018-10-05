@@ -6,7 +6,7 @@ class UsersCest
     public function _before(\ApiTester $I)
     {
         do {
-            $this->instanceName =  uniqid('BlueGoTest_');
+            $this->instanceName =  uniqid('BlueGoTest_' . __CLASS__ . '_');
         } while(isset($this->usedInstanceNames[$this->instanceName]));
         $this->usedInstanceNames[$this->instanceName] = true;
         $I->setApiInstance($this->instanceName);
