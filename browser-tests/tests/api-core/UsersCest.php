@@ -42,7 +42,7 @@ class UsersCest
         ]));
 
         // Ensure User does not exist
-        $I->sendGET($this->buildCallingUrl('/users/getall'));
+        $I->sendGET($this->buildCallingUrl('/users/get/all'));
         $I->seeResponseCodeIs(200);
         $I->dontSeeResponseContainsJson([
             '0' => $userData
@@ -94,13 +94,13 @@ class UsersCest
                 'forename' => 'Jim',
                 'surname' => 'Biddersdale'
             ]);
-        $I->sendGET($this->buildCallingUrl('/users/getall'));
+        $I->sendGET($this->buildCallingUrl('/users/get/all'));
         $I->seeResponseCodeIs(200);
         $this->expectUsersJsonApiStructure($I);
         $id = $I->grabDataFromResponseByJsonPath('$.data[*].id');
         $I->seeResponseContainsExactJson((object)[
             "links" => (object)[
-                "self" => "http://api-core/". $this->instanceName ."/users/getall"
+                "self" => "http://api-core/". $this->instanceName ."/users/get/all"
             ],
             "data" => [
                 (object)[

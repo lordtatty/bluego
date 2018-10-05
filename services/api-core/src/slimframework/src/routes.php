@@ -6,7 +6,9 @@ $app->group('/{instance}', function () {
                 $className = \SlimFramework\Controllers\UsersController::class;
                 $this->post('/add', $className . ':addUser');
                 $this->post('/update/{uniqueId}', $className . ':updateUser');
-                $this->get('/getall', $className . ':getUsers');
+                $this->group('/get', function () use ($className) {
+                        $this->get('/all', $className . ':getUsers');
+                    });
 
             });
         $this->group('/courses', function () {
