@@ -15,14 +15,6 @@ use BlueGoCore\Models\User;
  * @package BlueGoCore\Models
  */
 class CourseUserView extends ViewsAbstract {
-
-    /**
-     * @param Course $course
-     */
-    public function __construct(Course $course){
-        $this->setCourse($course);
-    }
-
     /**
      * Set the User's Forename
      *
@@ -36,10 +28,14 @@ class CourseUserView extends ViewsAbstract {
     /**
      * Get the User's Forename
      *
-     * @return string
+     * @return Generator|User[]
      */
     public function getUsers(){
-        return $this->_getModelProperty('users');
+        foreach($this->_getModelProperty('users') as $userArr){
+            $user = new User();
+            $user->loadFromArray($userArr);
+            yield $user;
+        }
     }
 
     /**
@@ -58,6 +54,20 @@ class CourseUserView extends ViewsAbstract {
      */
     public function getCourse(){
         return $this->_getModelProperty('course');
+    }
+
+    /**
+     * Validate the data in the model is
+     * safe to store
+     *
+     * @return bool
+     */
+    public function validateData(){
+        $course = $this->_getModelProperty('course');
+        if (!isset($course) || empty($course)) {
+            return false;
+        }
+        return true;
     }
 
     public function getPodName()

@@ -1,10 +1,9 @@
 <?php
 namespace SlimFramework\Controllers;
 
-use BlueGoCore\Actions\EnrollUserToCourse;
-use BlueGoCore\Loaders\CourseLoader;
 use BlueGoCore\Loaders\UserLoader;
-use BlueGoCore\Loaders\Views\ViewLoaderFactory;
+use BlueGoCore\Loaders\Views\CourseUserViewLoader;
+use BlueGoCore\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -28,6 +27,9 @@ class UsersController extends ControllerAbstract {
     protected function getAll(Request $request, Response $response, array $args) {
         $userLoader = new UserLoader($this->getStorageManager());
         $allUsers = $userLoader->getAll();
+
+        var_dump($allUsers); exit();
+
 
         return $this->success($allUsers);
     }
@@ -53,6 +55,31 @@ class UsersController extends ControllerAbstract {
     }
 
     /**
+     * Get a single user
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    protected function getByCourse(Request $request, Response $response, array $args) {
+        $loader = new CourseUserViewLoader($this->getStorageManager());
+        $courseUserView = $loader->getByUniqueId($args['uniqueId']);
+
+        $users = [];
+        foreach($courseUserView->getUsers() as $u){
+            $users[] = $u;
+        }
+
+        if(!empty($users)) {
+            return $this->success($users);
+        }
+        else{
+            return $this->notFound();
+        }
+    }
+
+    /**
      * Add User route
      *
      * Adds a single user
@@ -68,24 +95,7 @@ class UsersController extends ControllerAbstract {
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
 
-        ////// Testing - remove ////
-        $courseLoader = new CourseLoader($this->getStorageManager());
-        $allCourses = $courseLoader->getAll();
-
-        $action = new EnrollUserToCourse(
-            new ViewLoaderFactory($this->getStorageManager())
-        );
-
-        $action->setUser($user);
-        foreach ($allCourses as $c) {
-            $action->setCourse($c);
-            $action->perform();
-        }
-
-        ////////////////////////////
-
         return $this->success([$user]);
-
     }
 
 
@@ -109,7 +119,7 @@ class UsersController extends ControllerAbstract {
 
         $user->setForename($request->getParam('forename'));
         $user->setSurname($request->getParam('surname'));
-        
+
         return $this->success([$user]);
 
     }

@@ -9,5 +9,4 @@ use BlueGoCore\Models\IModelConcrete;
 interface IModelView extends IModel{
     public function iterateAllModels();
     public function updateInstancesOfModel(IModelConcrete $model);
-
 } 

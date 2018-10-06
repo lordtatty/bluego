@@ -3,25 +3,32 @@
 namespace BlueGoCore\Loaders\Views;
 
 
-use BlueGoCore\Models\Course;
-use BlueGoCore\Models\IModelConcrete;
 use BlueGoCore\Models\Views\CourseUserView;
 
 class CourseUserViewLoader extends ViewLoaderAbstract {
 
     /**
-     * @param Course $course
-     * @return \BlueGoCore\Models\Views\CourseUserView
+     * @param $id
+     * @return \BlueGoCore\Models\Views\CourseUserView|null
      */
-    public function loadFromCourse(Course $course){
-        return $this->loadFromStorageManager($course);
+    public function getByUniqueId($id){
+        return $this->getStorageManager()->getDataByUniqueId($id, $this->getModel());
+    }
+
+    /**
+     * @return CourseUserView
+     */
+    public function createNew(){
+        $user = $this->getModel();
+        $this->getStorageManager()->addModel($user);
+        return $user;
     }
 
     /**
      * @return \BlueGoCore\Models\Views\CourseUserView
      */
-    protected function getViewModel(IModelConcrete $course){
-        return new CourseUserView($course);
+    protected function getModel(){
+        return new CourseUserView();
     }
 
 } 

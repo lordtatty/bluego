@@ -3,10 +3,10 @@
 namespace BlueGoCore\Loaders\Views;
 
 
-use BlueGoCore\Models\IModelConcrete;
+use BlueGoCore\Loaders\IModelLoader;
 use BlueGoCore\Storage\StorageManager;
 
-abstract class ViewLoaderAbstract {
+abstract class ViewLoaderAbstract Implements IModelLoader{
 
     private $storageManager;
 
@@ -15,22 +15,9 @@ abstract class ViewLoaderAbstract {
     }
 
     /**
-     * @param IModelConcrete $concreteModel
-     * @return \BlueGoCore\Models\Views\IModelView
+     * @return StorageManager
      */
-    protected function loadFromStorageManager(IModelConcrete $concreteModel){
-        $viewModel = $this->storageManager->getDataByUniqueId($concreteModel->getUniqueId(), $this->getViewModel($concreteModel));
-        if($viewModel === null){
-            $viewModel = $this->getViewModel($concreteModel);
-            $this->storageManager->addModel($viewModel);
-        }
-        return $viewModel;
+    public function getStorageManager(){
+        return $this->storageManager;
     }
-
-    /**
-     * @param IModelConcrete $modelKey
-     * @return \BlueGoCore\Models\IModel
-     */
-    abstract protected function getViewModel(IModelConcrete $modelKey);
-
 } 

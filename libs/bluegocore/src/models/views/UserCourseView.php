@@ -15,26 +15,18 @@ use BlueGoCore\Models\User;
  * @package BlueGoCore\Models
  */
 class UserCourseView extends ViewsAbstract {
-
-    /**
-     * @param User $user
-     */
-    public function __construct(User $user){
-        $this->setUser($user);
-    }
-
     /**
      * Set the User's Forename
      *
      * @param User $user
      */
-    protected function setUser(User $user) {
+    public function setUser(User $user) {
         $this->setUniqueId($user->getUniqueId());
         $this->_setModelProperty('user', $user, 'iModel');
     }
 
     /**
-     * Get the User's Forename
+     * Get the Users
      *
      * @return string
      */
@@ -58,6 +50,20 @@ class UserCourseView extends ViewsAbstract {
      */
     public function getCourses(){
         return $this->_getModelProperty('courses');
+    }
+
+    /**
+     * Validate the data in the model is
+     * safe to store
+     *
+     * @return bool
+     */
+    public function validateData(){
+        $user = $this->_getModelProperty('user');
+        if (!isset($user) || empty($user)) {
+            return false;
+        }
+        return true;
     }
 
     public function getPodName()

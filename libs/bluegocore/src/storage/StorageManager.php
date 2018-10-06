@@ -78,6 +78,9 @@ class StorageManager {
         foreach($this->concreteModels as $model) {
             /** @var IModelConcrete $model*/
             if($model->isChanged()) {
+                if(!$model->validateData()){
+                    throw new \Exception('Model Data is not Valid for:' . var_export($model, true));
+                }
                 foreach ($this->persistedStorage as $persistedStorage) {
                     /** @var IPersistableStorageType $persistedStorage */
                     $persistedStorage->save($model);
@@ -88,6 +91,9 @@ class StorageManager {
         foreach($this->viewModels as $model) {
             /** @var IModelConcrete $model*/
             if($model->isChanged()) {
+                if(!$model->validateData()){
+                    throw new \Exception('Model Data is not valid for:' . var_export($model, true));
+                }
                 foreach ($this->persistedStorage as $persistedStorage) {
                     /** @var IPersistableStorageType $persistedStorage */
                     $persistedStorage->save($model);

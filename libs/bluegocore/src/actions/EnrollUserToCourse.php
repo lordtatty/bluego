@@ -2,6 +2,7 @@
 
 namespace BlueGoCore\Actions;
 
+use BlueGoCore\Loaders\IModelLoader;
 use BlueGoCore\Loaders\Views\ViewLoaderFactory;
 use BlueGoCore\Models\Course;
 use BlueGoCore\Models\User;
@@ -52,18 +53,53 @@ class EnrollUserToCourse {
      * Enrols the user onto the set course
      */
     public function perform(){
+        // Sanity Checks
+        if(($this->user) === null){
+            throw new \Exception('User is not set');
+        }
+        if(($this->course) === null){
+            throw new \Exception('Course is not set');
+        }
         // Update user-course view
-        $userCourseView = $this->viewLoaderFactory
-            ->getUserCourseViewLoader()
-            ->loadFromUser($this->user);
+        $userCourseView = $this->getUserCourseView($this->user->getUniqueId());
+        $userCourseView->setUser($this->user);
         $userCourseView->addCourse($this->course);
 
         // Update course_user view
-        $courseUserView = $this->viewLoaderFactory
-            ->getCourseUserViewLoader()
-            ->loadFromCourse($this->course);
+        $courseUserView = $this->getCourseUserView($this->course->getUniqueId());
         $courseUserView->setCourse($this->course);
         $courseUserView->addUser($this->user);
+    }
+
+    /**
+     * Get A user course view.  Populated by the ID if it
+     * exists, otherwise blank.
+     *
+     * @param $id
+     * @return User|\BlueGoCore\Models\Views\UserCourseView
+     */
+    protected function getUserCourseView($id){
+        $loader = $this->viewLoaderFactory
+            ->getUserCourseViewLoader();
+        return $this->getViewFromLoader($loader, $id);
+    }
+
+    /**
+     * @param $id
+     * @return User|\BlueGoCore\Models\Views\CourseUserView
+     */
+    protected function getCourseUserView($id){
+        $loader = $this->viewLoaderFactory
+            ->getCourseUserViewLoader();
+        return $this->getViewFromLoader($loader, $id);
+    }
+
+    protected function getViewFromLoader(IModelLoader $loader, $id){
+        $view = $loader->getByUniqueId($id);
+        if($view == null){
+            $view = $loader->createNew();
+        }
+        return $view;
     }
 
 } 

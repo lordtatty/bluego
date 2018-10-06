@@ -7,7 +7,7 @@ use \BlueGoCore\Models\User;
 class UserSerialiser extends AbstractSerializer {
     protected $type = 'users';
 
-    public function getAttributes( $user, array $fields = null)
+    public function getAttributes($user, array $fields = null)
     {
         /** @var User $user */
         return $user->getArray();

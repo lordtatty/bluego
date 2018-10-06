@@ -14,12 +14,20 @@ class CourseLoader extends ModelConcreteLoaderAbstract {
     }
 
     /**
+     * @param $id
+     * @return \BlueGoCore\Models\Course|null
+     */
+    public function getByUniqueId($id){
+        return $this->getStorageManager()->getDataByUniqueId($id, $this->getModel());
+    }
+
+    /**
      * @return Course
      */
     public function createNew(){
-        $user = $this->getModel();
-        $this->getStorageManager()->addModel($user);
-        return $user;
+        $course = $this->getModel();
+        $this->getStorageManager()->addModel($course);
+        return $course;
     }
 
     /**

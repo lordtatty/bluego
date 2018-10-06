@@ -45,13 +45,12 @@ class ViewLoader implements IModelIdToViewLoader{
         switch($viewString){
             case 'view_user_course':
                 $loader = new UserCourseViewLoader($this->storageManager);
-                $user = $this->getStorageManager()->getDataByUniqueId($modelUniqueId, new User());
-                return $loader->loadFromUser($user);
+                return $loader->getByUniqueId($modelUniqueId);
                 break;
             case 'view_course_users':
                 $loader = new CourseUserViewLoader($this->storageManager);
-                $course = $this->getStorageManager()->getDataByUniqueId($modelUniqueId, new Course());
-                return $loader->loadFromCourse($course);                break;
+                return $loader->getByUniqueId($modelUniqueId);
+                break;
             default:
                 throw new \Exception('View type not recognised');
         }

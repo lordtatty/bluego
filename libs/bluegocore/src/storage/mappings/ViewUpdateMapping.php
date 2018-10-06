@@ -36,4 +36,14 @@ class ViewUpdateMapping extends ModelAbstract {
     public function setModel(IModel $model){
         $this->_setModelProperty('uniqueId', $model->getUniqueId(), 'string');
     }
+
+    /**
+     * Validate the data in the model is
+     * safe to store
+     *
+     * @return bool
+     */
+    public function validateData(){
+        return true;
+    }
 }

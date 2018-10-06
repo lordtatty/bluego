@@ -10,6 +10,7 @@ $app->group('/{instance}', function () {
                         $this->get('/all', $className . ':getAll');
                         $this->group('/by', function () use ($className) {
                                 $this->get('/id/{uniqueId}', $className . ':getById');
+                                $this->get('/course/{uniqueId}', $className . ':getByCourse');
                             });
                     });
             });
@@ -20,7 +21,16 @@ $app->group('/{instance}', function () {
                         $this->get('/all', $className . ':getAll');
                         $this->group('/by', function () use ($className) {
 //                                $this->get('/id/{uniqueId}', $className . ':getById');
-//                                $this->get('/enrolleduser/{userId}', $className . ':getByEnrolledUser');
+                            });
+                    });
+            });
+        $this->group('/enrollment', function () {
+                $className = \SlimFramework\Controllers\EnrollmentController::class;
+                $this->post('/add', $className . ':addEnrollment');
+                $this->group('/get', function () use ($className) {
+                        $this->group('/by', function () use ($className) {
+//                                $this->get('/user/{userId}', $className . ':getById');
+//                                $this->get('/course/{courseId}', $className . ':getById');
                             });
                     });
             });

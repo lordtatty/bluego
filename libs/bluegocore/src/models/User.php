@@ -49,6 +49,16 @@ class User extends ModelAbstract implements IModelConcrete {
         return $this->_getModelProperty('surname');
     }
 
+    /**
+     * Validate the data in the model is
+     * safe to store
+     *
+     * @return bool
+     */
+    public function validateData(){
+        return true;
+    }
+
 
     public function getPodName()
     {

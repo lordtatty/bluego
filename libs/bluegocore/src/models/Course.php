@@ -54,5 +54,14 @@ class Course extends ModelAbstract implements IModelConcrete {
         return $this->_getModelProperty('course_code');
     }
 
+    /**
+     * Validate the data in the model is
+     * safe to store
+     *
+     * @return bool
+     */
+    public function validateData(){
+        return true;
+    }
 
 }
