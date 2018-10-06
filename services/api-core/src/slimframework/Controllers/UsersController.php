@@ -3,7 +3,6 @@ namespace SlimFramework\Controllers;
 
 use BlueGoCore\Loaders\UserLoader;
 use BlueGoCore\Loaders\Views\CourseUserViewLoader;
-use BlueGoCore\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -27,9 +26,6 @@ class UsersController extends ControllerAbstract {
     protected function getAll(Request $request, Response $response, array $args) {
         $userLoader = new UserLoader($this->getStorageManager());
         $allUsers = $userLoader->getAll();
-
-        var_dump($allUsers); exit();
-
 
         return $this->success($allUsers);
     }
