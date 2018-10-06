@@ -46,10 +46,14 @@ class UserCourseView extends ViewsAbstract {
     /**
      * Get the user's surname
      *
-     * @return string
+     * @return Generator|Course[]
      */
     public function getCourses(){
-        return $this->_getModelProperty('courses');
+        foreach($this->_getModelProperty('courses') as $userArr){
+            $course = new Course();
+            $course->loadFromArray($userArr);
+            yield $course;
+        }
     }
 
     /**

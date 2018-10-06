@@ -63,16 +63,13 @@ class UsersController extends ControllerAbstract {
         $courseUserView = $loader->getByUniqueId($args['uniqueId']);
 
         $users = [];
-        foreach($courseUserView->getUsers() as $u){
-            $users[] = $u;
+        if($courseUserView !== null){
+            foreach($courseUserView->getUsers() as $u){
+                $users[] = $u;
+            }
         }
 
-        if(!empty($users)) {
-            return $this->success($users);
-        }
-        else{
-            return $this->notFound();
-        }
+        return $this->success($users);
     }
 
     /**

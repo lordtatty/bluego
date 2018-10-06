@@ -20,6 +20,7 @@ $app->group('/{instance}', function () {
                 $this->group('/get', function () use ($className) {
                         $this->get('/all', $className . ':getAll');
                         $this->group('/by', function () use ($className) {
+                                $this->get('/user/{uniqueId}', $className . ':getByUser');
 //                                $this->get('/id/{uniqueId}', $className . ':getById');
                             });
                     });
