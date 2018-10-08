@@ -1,8 +1,8 @@
 <template>
   <div class="courses">
-    Courses:
+    {{ click }}Courses:
     <ul id='courses-list'>
-      <li v-bind:key="courses.uniqueId" v-for="course in courses">
+      <li v-on:click="clickMe()" v-bind:key="courses.uniqueId" v-for="course in courses">
         {{ course.course_code }}
       </li>
     </ul>
@@ -12,24 +12,35 @@
 <script>
 import Axios from 'axios'
 
-var courses = [];
-Axios.get("http://localhost:8081/test/courses/get/all")
-  .then(function(response) {
-    for(var i = 0; i < response.data.data.length; i++){
-      courses.push(response.data.data[i].attributes)
-    }
-  })
-  .catch(function (error){
-    console.log(error)
-  });
-console.log(courses);
 export default {
   name: 'Courses',
   data: function() {
     return {
+      click:1,
       message : "",
-      courses: courses
+      courses: []
     }
+  },
+  methods: {
+    clickMe: function(){
+      this.click +=1;
+    },
+    getAllCourses: function(){
+      var finalCourses = [];
+      Axios.get("http://localhost:8081/test/courses/get/all")
+        .then(function(response) {
+          for(var i = 0; i < response.data.data.length; i++){
+            finalCourses.push(response.data.data[i].attributes)
+          }
+        })
+        .catch(function (error){
+          console.log(error)
+        });
+      this.courses = finalCourses;
+    }
+  },
+  created: function() {
+    this.getAllCourses()
   },
   props: {
     msg: String

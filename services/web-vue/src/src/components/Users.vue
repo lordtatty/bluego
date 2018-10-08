@@ -13,15 +13,6 @@
 import Axios from 'axios'
 
 var users = [];
-Axios.get("http://localhost:8081/test/users/get/all")
-  .then(function(response) {
-    for(var i = 0; i < response.data.data.length; i++){
-      users.push(response.data.data[i].attributes)
-}
-  })
-  .catch(function (error){
-    console.log(error)
-  });
 
 export default {
   name: 'Users',
@@ -31,8 +22,21 @@ export default {
       users: users
     }
   },
-  created: function () {
-    // axios.
+  methods: {
+    getAllUsers: function(){
+      Axios.get("http://localhost:8081/test/users/get/all")
+        .then(function(response) {
+          for(var i = 0; i < response.data.data.length; i++){
+            users.push(response.data.data[i].attributes)
+      }
+        })
+        .catch(function (error){
+          console.log(error)
+        });
+    }
+  },
+  created: function() {
+    this.getAllUsers()
   },
   props: {
     msg: String
