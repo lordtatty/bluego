@@ -11,10 +11,10 @@ services:
         image: composer/composer
         volumes:
             - ../../:/app
-        command: install --ignore-platform-reqs --classmap-authoritative --working-dir="./services/api-core/src"
+        command: install --ignore-platform-reqs --working-dir="./services/api-core/src"
     libs-bluegocore:
         restart: 'no'
         image: composer/composer
         volumes:
             - ../../:/app
-        command: install --ignore-platform-reqs --classmap-authoritative --working-dir="./libs/bluegocore"
+        command: install --ignore-platform-reqs --working-dir="./libs/bluegocore"

@@ -1,9 +1,9 @@
 <template>
-  <div class="users">
-    Users:
-    <ul id='users-list'>
-      <li v-bind:key="user.uniqueId" v-for="user in users">
-        {{ user.forename }} {{ user.surname }}
+  <div class="courses">
+    Courses:
+    <ul id='courses-list'>
+      <li v-bind:key="courses.uniqueId" v-for="course in courses">
+        {{ course.course_code }}
       </li>
     </ul>
   </div>
@@ -12,27 +12,24 @@
 <script>
 import Axios from 'axios'
 
-var users = [];
-Axios.get("http://localhost:8081/test/users/get/all")
+var courses = [];
+Axios.get("http://localhost:8081/test/courses/get/all")
   .then(function(response) {
     for(var i = 0; i < response.data.data.length; i++){
-      users.push(response.data.data[i].attributes)
-}
+      courses.push(response.data.data[i].attributes)
+    }
   })
   .catch(function (error){
     console.log(error)
   });
-
+console.log(courses);
 export default {
-  name: 'Users',
+  name: 'Courses',
   data: function() {
     return {
       message : "",
-      users: users
+      courses: courses
     }
-  },
-  created: function () {
-    // axios.
   },
   props: {
     msg: String

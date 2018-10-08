@@ -134,6 +134,7 @@ abstract class ControllerAbstract {
         return $this->response
             ->withJson($document)
             ->withHeader('Content-Type', 'application/vnd.api+json')
+            ->withHeader('Access-Control-Allow-Origin', '*')
             ->withStatus($statusCode);
     }
 
