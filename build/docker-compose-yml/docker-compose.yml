@@ -9,14 +9,14 @@ services:
             - 8081:8081
         restart: always
 
-    web-yii:
-        build: ../../services/web-yii/
+    web-vue:
+        build: ../../services/web-vue/
         depends_on:
             - proxy-nginx
-        image: web-yii
+        image: web-vue
         restart: always
         links:
-          - mongodb
+          - api-core
 
     api-core:
         build: ../../services/api-core/

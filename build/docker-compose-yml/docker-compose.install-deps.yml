@@ -1,12 +1,11 @@
 version: '3.5'
 
 services:
-    composer-web-yii:
+    composer-web-vue:
         restart: 'no'
-        image: composer/composer
-        volumes:
-            - ../../:/app
-        command: install --ignore-platform-reqs --classmap-authoritative --working-dir="./services/web-yii/src"
+        build: ../../services/web-vue/
+        image: web-vue
+        command: npm install
     composer-api-core:
         restart: 'no'
         image: composer/composer

@@ -1,9 +1,9 @@
 version: '3.5'
 
 services:
-    web-yii:
+    web-vue:
         volumes:
-          - ../../services/web-yii/src:/var/www/html
+          - ../../services/web-vue/src:/var/www/html
 
     api-core:
         volumes:
